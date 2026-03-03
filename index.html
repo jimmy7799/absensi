@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Batu Paradise — Absensi</title>
+
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --panel:#ffffff;
+      --panel2:#ffffff;
+
+      --text:#101827;
+      --muted:#5b6476;
+      --line:rgba(16,24,39,.12);
+
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#dc2626;
+
+      --brand:#dc2626;      /* merah */
+      --brandSoft:rgba(220,38,38,.10);
+      --chip:#f1f3f8;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#ffffff);
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:16px;}
+    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px;}
+    .brand{font-weight:900;letter-spacing:.2px}
+    .right{display:flex;gap:10px;align-items:center}
+
+    .pill{
+      font-size:12px;color:var(--muted);
+      border:1px solid var(--line);
+      padding:6px 10px;border-radius:999px;background:#fff;
+    }
+
+    .btn{
+      border:1px solid rgba(220,38,38,.55);
+      background:var(--brandSoft);
+      color:var(--text);
+      padding:9px 12px;border-radius:10px;cursor:pointer;
+      display:inline-flex;gap:8px;align-items:center;text-decoration:none;
+      font-weight:700;
+    }
+    .btn.secondary{border-color:var(--line);background:#fff;font-weight:700}
+    .btn.danger{border-color:rgba(220,38,38,.75);background:rgba(220,38,38,.16)}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;}
+    .tabbtn{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      padding:10px 12px;border-radius:10px;cursor:pointer;
+      font-weight:800;
+    }
+    .tabbtn.active{
+      border-color:rgba(220,38,38,.55);
+      background:var(--brandSoft);
+    }
+
+    .card{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      box-shadow:0 18px 30px rgba(16,24,39,.06);
+    }
+
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
+    .col-3{grid-column:span 3}
+    .col-4{grid-column:span 4}
+    .col-6{grid-column:span 6}
+    .col-12{grid-column:span 12}
+
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700}
+    input,select{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;color:var(--text);
+      padding:10px;border-radius:10px;outline:none;
+    }
+    input::placeholder{color:rgba(16,24,39,.40)}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .hint{font-size:12px;color:var(--muted);line-height:1.4}
+    .msg{margin-top:10px;font-size:12px;white-space:pre-wrap}
+    .msg.ok{color:var(--ok);font-weight:700}
+    .msg.bad{color:var(--bad);font-weight:700}
+    .msg.warn{color:var(--warn);font-weight:700}
+    .divider{height:1px;background:var(--line);margin:12px 0}
+    .hidden{display:none!important}
+
+    table{width:100%;border-collapse:separate;border-spacing:0;margin-top:10px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    th,td{padding:9px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}
+    th{background:#fbfbfd;color:var(--muted);text-align:left}
+    tr:last-child td{border-bottom:none}
+    .num{text-align:right}
+    .small{font-size:11px;color:var(--muted)}
+
+    .chip{
+      display:inline-flex;gap:6px;align-items:center;
+      background:#fff;border:1px solid var(--line);
+      padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted);
+      font-weight:700;
+    }
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.ok{background:var(--ok)}
+    .dot.warn{background:var(--warn)}
+    .dot.bad{background:var(--bad)}
+
+    .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .subtab{
+      padding:8px 10px;border-radius:10px;border:1px solid var(--line);
+      background:#fff;cursor:pointer;font-size:12px;font-weight:800;
+    }
+    .subtab.active{
+      background:rgba(22,163,74,.10);
+      border-color:rgba(22,163,74,.35);
+    }
+
+    .split{display:flex;gap:12px;flex-wrap:wrap}
+    .box{flex:1;min-width:320px}
+    .sectionTitle{font-weight:900;margin:0 0 10px 0}
+
+    /* SHIFT CHIPS */
+    .shiftChip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--line);
+      background:var(--chip);
+      min-width:54px;
+      font-weight:900;
+    }
+    .shift-P{ background:#e0f2fe; border-color:#7dd3fc; }
+    .shift-S{ background:#ecfccb; border-color:#bef264; }
+    .shift-M{ background:#fae8ff; border-color:#e879f9; }
+    .shift-FT{ background:#fff7ed; border-color:#fdba74; }
+    .shift-OFF{ background:#fee2e2; border-color:#fca5a5; }
+    .shift-IJIN{ background:#fef9c3; border-color:#fde047; }
+    .shift-SKT{ background:#ede9fe; border-color:#c4b5fd; }
+
+    @media (max-width:900px){
+      .col-3,.col-4,.col-6{grid-column:span 12}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">Batu Paradise Factory Outlet — Sistem Absensi</div>
+      <div class="right">
+        <span id="sessPill" class="pill">Belum login</span>
+        <button id="btnLogout" class="btn danger hidden" type="button">Logout</button>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <section id="view-login" class="card">
+      <h3 class="sectionTitle">Admin Login</h3>
+      <div class="grid">
+        <div class="col-4">
+          <label>Username</label>
+          <input id="loginUsername" placeholder="ADMIN1" autocomplete="username">
+        </div>
+        <div class="col-4">
+          <label>Password</label>
+          <input id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <div class="col-4">
+          <label>&nbsp;</label>
+          <button id="btnLogin" class="btn" type="button" style="width:100%">Login</button>
+        </div>
+        <div class="col-12">
+          <div class="hint">Login diperlukan. Token disimpan lokal di browser (localStorage).</div>
+          <div id="msgLogin" class="msg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP -->
+    <section id="view-app" class="hidden">
+      <div class="tabs">
+        <button class="tabbtn active" data-tab="absensi">Absensi</button>
+        <button class="tabbtn" data-tab="karyawan">Karyawan</button>
+        <button class="tabbtn" data-tab="laporan">Laporan</button>
+        <button class="tabbtn" data-tab="log">Log Admin</button>
+      </div>
+
+      <!-- ABSENSI -->
+      <section id="tab-absensi" class="card">
+        <div class="subtabs">
+          <button class="subtab active" data-sub="absen">1A. Absen</button>
+          <button class="subtab" data-sub="edit">1B. Edit Absen</button>
+        </div>
+
+        <!-- 1A ABSEN -->
+        <div id="sub-absen">
+          <div class="subtabs">
+            <button class="subtab active" data-sub2="massal">Mode Massal</button>
+            <button class="subtab" data-sub2="divisi">Mode Divisi</button>
+          </div>
+
+          <div class="grid">
+            <div class="col-4">
+              <label>Tanggal</label>
+              <input id="absenTanggal" type="date">
+            </div>
+            <div class="col-4">
+              <label>Load Absen (tanggal ini)</label>
+              <button id="btnLoadAbsenHari" class="btn secondary" type="button" style="width:100%">Load Absen Hari Ini</button>
+            </div>
+            <div class="col-4">
+              <label>Status</label>
+              <div class="chip" id="absenStatusChip"><span class="dot warn"></span><span>Belum load</span></div>
+            </div>
+            <div class="col-12">
+              <div class="hint">
+                Shift: <b>P/S/M/FT/OFF/IJIN/SKT</b> — (IJIN otomatis disimpan sebagai IJN di backend).
+                Telat isi menit. Pulang isi jam + reason.
+              </div>
+            </div>
+          </div>
+
+          <!-- MASSAL -->
+          <div id="mode-massal" class="box">
+            <div class="divider"></div>
+            <div class="row">
+              <button class="btn secondary" id="btnAddRow">+ Tambah Baris</button>
+              <button class="btn" id="btnSubmitMassal">Submit Massal</button>
+              <button class="btn danger" id="btnClearRows">Clear</button>
+              <span class="small" id="massalInfo"></span>
+            </div>
+
+            <datalist id="employeeList"></datalist>
+
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:34%">Nama</th>
+                  <th style="width:12%">Shift</th>
+                  <th style="width:12%">Telat (menit)</th>
+                  <th style="width:12%">Pulang (jam)</th>
+                  <th style="width:18%">Reason Pulang</th>
+                  <th style="width:12%">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyMassal"></tbody>
+            </table>
+
+            <div id="msgMassal" class="msg"></div>
+          </div>
+
+          <!-- DIVISI -->
+          <div id="mode-divisi" class="box hidden">
+            <div class="divider"></div>
+            <div class="grid">
+              <div class="col-4">
+                <label>Pilih Divisi</label>
+                <select id="divisiSelect"></select>
+              </div>
+              <div class="col-4">
+                <label>Centang semua</label>
+                <button class="btn secondary" id="btnCheckAll" type="button" style="width:100%">Check All</button>
+              </div>
+              <div class="col-4">
+                <label>Uncheck semua</label>
+                <button class="btn secondary" id="btnUncheckAll" type="button" style="width:100%">Uncheck All</button>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <button class="btn" id="btnSubmitDivisi" type="button">Submit Divisi (yang dicentang)</button>
+                  <span class="small" id="divisiInfo"></span>
+                </div>
+              </div>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:6%">✓</th>
+                  <th style="width:28%">Nama</th>
+                  <th style="width:12%">Shift</th>
+                  <th style="width:12%">Telat</th>
+                  <th style="width:12%">Pulang</th>
+                  <th style="width:18%">Reason</th>
+                  <th style="width:12%">Status</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyDivisi"></tbody>
+            </table>
+
+            <div id="msgDivisi" class="msg"></div>
+          </div>
+        </div>
+
+        <!-- 1B EDIT ABSEN -->
+        <div id="sub-edit" class="hidden">
+          <div class="grid">
+            <div class="col-4">
+              <label>Tanggal</label>
+              <input id="editTanggal" type="date">
+            </div>
+            <div class="col-4">
+              <label>Pilih Karyawan (Nama)</label>
+              <input id="editNama" list="employeeList" placeholder="Ketik nama..." />
+            </div>
+            <div class="col-4">
+              <label>&nbsp;</label>
+              <button id="btnLoadOne" class="btn secondary" type="button" style="width:100%">Load Data Absen</button>
+            </div>
+
+            <div class="col-12"><div class="divider"></div></div>
+
+            <div class="col-3">
+              <label>Shift</label>
+              <select id="editShift"></select>
+            </div>
+            <div class="col-3">
+              <label>Telat (menit)</label>
+              <input id="editTelat" type="number" min="0" placeholder="0">
+            </div>
+            <div class="col-3">
+              <label>Pulang (jam)</label>
+              <input id="editPulang" type="time">
+            </div>
+            <div class="col-3">
+              <label>Reason Pulang</label>
+              <select id="editReason"></select>
+            </div>
+
+            <div class="col-12">
+              <div class="row">
+                <button id="btnUpdateOne" class="btn" type="button">Update Absensi</button>
+                <span class="small" id="editInfo"></span>
+              </div>
+              <div id="msgEdit" class="msg"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KARYAWAN -->
+      <section id="tab-karyawan" class="card hidden">
+        <h3 class="sectionTitle">Manajemen Karyawan</h3>
+
+        <div class="grid">
+          <div class="col-6">
+            <label>Search Nama</label>
+            <input id="empSearch" placeholder="Cari nama...">
+          </div>
+          <div class="col-6">
+            <label>&nbsp;</label>
+            <button id="btnReloadEmp" class="btn secondary" type="button" style="width:100%">Reload Employees</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="split">
+          <div class="box">
+            <h4 class="sectionTitle" style="font-size:14px">Daftar Karyawan Aktif</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:14%">ID</th>
+                  <th style="width:34%">Nama</th>
+                  <th style="width:22%">Divisi</th>
+                  <th style="width:12%">Lantai</th>
+                  <th style="width:18%">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyEmp"></tbody>
+            </table>
+            <div class="hint">
+              * `getEmployees` hanya mengembalikan karyawan aktif. Untuk aktifkan kembali, pakai form “Aktifkan Karyawan”.
+            </div>
+            <div id="msgEmp" class="msg"></div>
+          </div>
+
+          <div class="box">
+            <h4 class="sectionTitle" style="font-size:14px">Tambah / Edit Karyawan</h4>
+            <div class="grid">
+              <div class="col-6">
+                <label>Employee ID</label>
+                <input id="empId" placeholder="E006">
+              </div>
+              <div class="col-6">
+                <label>Nama</label>
+                <input id="empNama" placeholder="NAMA">
+              </div>
+              <div class="col-6">
+                <label>Divisi</label>
+                <input id="empDivisi" placeholder="staff">
+              </div>
+              <div class="col-6">
+                <label>Lantai</label>
+                <input id="empLantai" placeholder="">
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <button id="btnEmpCreate" class="btn" type="button">Tambah Baru</button>
+                  <button id="btnEmpUpdate" class="btn secondary" type="button">Update</button>
+                  <button id="btnEmpDeactivate" class="btn danger" type="button">Nonaktifkan (Resign)</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h4 class="sectionTitle" style="font-size:14px">Aktifkan Karyawan (Manual)</h4>
+            <div class="grid">
+              <div class="col-6">
+                <label>Employee ID</label>
+                <input id="empReactId" placeholder="E006">
+              </div>
+              <div class="col-6">
+                <label>&nbsp;</label>
+                <button id="btnEmpReact" class="btn secondary" type="button" style="width:100%">Set Active TRUE</button>
+              </div>
+            </div>
+
+            <div id="msgEmpForm" class="msg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LAPORAN -->
+      <section id="tab-laporan" class="card hidden">
+        <h3 class="sectionTitle">Laporan Rekap Bulanan (PDF)</h3>
+        <div class="grid">
+          <div class="col-3">
+            <label>Tahun</label>
+            <select id="repYear"></select>
+          </div>
+          <div class="col-3">
+            <label>Bulan</label>
+            <select id="repMonth"></select>
+          </div>
+          <div class="col-3">
+            <label>Divisi</label>
+            <select id="repDivisi"></select>
+            <div class="small">Divisi dinamis dari EMPLOYEES</div>
+          </div>
+          <div class="col-3">
+            <label>Dicetak Oleh</label>
+            <input id="repPrintedBy" placeholder="otomatis dari username login">
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <button id="btnGenPdf" class="btn" type="button">Generate PDF</button>
+              <a id="btnDownload" class="btn hidden" href="#" target="_blank" rel="noopener">Download PDF</a>
+              <a id="btnView" class="btn secondary hidden" href="#" target="_blank" rel="noopener">View di Drive</a>
+            </div>
+            <div id="msgLaporan" class="msg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOG ADMIN -->
+      <section id="tab-log" class="card hidden">
+        <h3 class="sectionTitle">Log Admin</h3>
+        <div class="grid">
+          <div class="col-4">
+            <label>Start (opsional)</label>
+            <input id="logStart" type="date">
+          </div>
+          <div class="col-4">
+            <label>End (opsional)</label>
+            <input id="logEnd" type="date">
+          </div>
+          <div class="col-4">
+            <label>&nbsp;</label>
+            <button id="btnLoadLog" class="btn secondary" type="button" style="width:100%">Load Log</button>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%">Waktu</th>
+              <th style="width:10%">Admin</th>
+              <th style="width:14%">Action</th>
+              <th style="width:12%">Target</th>
+              <th style="width:14%">Target ID</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyLog"></tbody>
+        </table>
+
+        <div id="msgLog" class="msg"></div>
+      </section>
+    </section>
+  </div>
+
+<script>
+/***********************
+ CONFIG
+************************/
+const API = "https://script.google.com/macros/s/AKfycbzpdOf-ZuDAQiZ6otrHnmqUVLH2Ab09Ks1HqxpwPr8kjopqoSHjSOqOjC1GqdxY40OH4w/exec";
+
+/***********************
+ STATE
+************************/
+let TOKEN = localStorage.getItem("bpfo_token") || "";
+let USER  = localStorage.getItem("bpfo_user") || "";
+let ROLE  = localStorage.getItem("bpfo_role") || "";
+let EMPLOYEES = [];
+let ABSEN_HARI = [];
+
+// UI shift
+const SHIFT_UI = ["P","S","M","FT","OFF","IJIN","SKT"];
+function toBackendShift(ui){ return (ui === "IJIN") ? "IJN" : ui; }
+function fromBackendShift(b){ return (String(b||"").toUpperCase() === "IJN") ? "IJIN" : String(b||"").toUpperCase(); }
+
+const REASONS = ["", "SAKIT", "DUKA", "KELUARGA", "IZIN_ADMIN", "LAINNYA"];
+
+function $(id){ return document.getElementById(id); }
+function setMsg(el, text, type){
+  el.className = "msg " + (type || "");
+  el.textContent = text || "";
+}
+function ymd(d){
+  const x = new Date(d);
+  const mm = String(x.getMonth()+1).padStart(2,"0");
+  const dd = String(x.getDate()).padStart(2,"0");
+  return `${x.getFullYear()}-${mm}-${dd}`;
+}
+function escapeHtml(s){
+  return String(s ?? "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+
+/***********************
+ SIMPLE SHIFT COLOR
+************************/
+function colorShiftSelect(selectEl){
+  const v = (selectEl.value || "").toUpperCase();
+  selectEl.style.fontWeight = "900";
+  if (v === "OFF") selectEl.style.color = "#dc2626";
+  else if (v === "IJIN") selectEl.style.color = "#a16207";
+  else if (v === "SKT") selectEl.style.color = "#6d28d9";
+  else if (v === "FT") selectEl.style.color = "#c2410c";
+  else selectEl.style.color = "#111827";
+}
+function shiftChipHtml(shiftUI){
+  const s = (shiftUI||"").toUpperCase();
+  const cls = "shiftChip shift-" + (s === "IJIN" ? "IJIN" : s);
+  return `<span class="${cls}">${escapeHtml(s)}</span>`;
+}
+
+/***********************
+ API HELPERS (NO JSON HEADER)
+************************/
+async function apiGet(action, params={}){
+  const url = new URL(API);
+  url.searchParams.set("action", action);
+  url.searchParams.set("token", TOKEN);
+  Object.entries(params).forEach(([k,v])=>{
+    if (v !== undefined && v !== null && String(v).length) url.searchParams.set(k, v);
+  });
+  const res = await fetch(url.toString(), { method:"GET" });
+  const text = await res.text();
+  let json;
+  try{ json = JSON.parse(text); }catch{ throw new Error("Response bukan JSON: " + text.slice(0,200)); }
+  return json;
+}
+
+async function apiPost(action, body){
+  const url = new URL(API);
+  url.searchParams.set("action", action);
+  const payload = { token: TOKEN, ...body };
+  const res = await fetch(url.toString(), { method:"POST", body: JSON.stringify(payload) });
+  const text = await res.text();
+  let json;
+  try{ json = JSON.parse(text); }catch{ throw new Error("Response bukan JSON: " + text.slice(0,200)); }
+  return json;
+}
+
+async function apiLogin(username, password){
+  const url = new URL(API);
+  url.searchParams.set("action","login");
+  const res = await fetch(url.toString(), { method:"POST", body: JSON.stringify({ username, password }) });
+  const text = await res.text();
+  let json;
+  try{ json = JSON.parse(text); }catch{ throw new Error("Response bukan JSON: " + text.slice(0,200)); }
+  return json;
+}
+
+/***********************
+ AUTH UI
+************************/
+function setSession(token, username, role){
+  TOKEN = token;
+  USER = username;
+  ROLE = role;
+  localStorage.setItem("bpfo_token", TOKEN);
+  localStorage.setItem("bpfo_user", USER);
+  localStorage.setItem("bpfo_role", ROLE);
+  refreshSessionPill();
+}
+function clearSession(){
+  TOKEN = ""; USER = ""; ROLE = "";
+  localStorage.removeItem("bpfo_token");
+  localStorage.removeItem("bpfo_user");
+  localStorage.removeItem("bpfo_role");
+  refreshSessionPill();
+}
+function refreshSessionPill(){
+  if (TOKEN){
+    $("sessPill").textContent = `Login: ${USER} (${ROLE || "ADMIN"})`;
+    $("btnLogout").classList.remove("hidden");
+  } else {
+    $("sessPill").textContent = "Belum login";
+    $("btnLogout").classList.add("hidden");
+  }
+}
+
+/***********************
+ INIT HELPERS
+************************/
+function buildDatalist(){
+  const dl = $("employeeList");
+  dl.innerHTML = "";
+  EMPLOYEES
+    .slice()
+    .sort((a,b)=> String(a.nama||"").localeCompare(String(b.nama||""), "id"))
+    .forEach(emp=>{
+      const opt = document.createElement("option");
+      opt.value = emp.nama;
+      dl.appendChild(opt);
+    });
+}
+
+function buildShiftSelect(el){
+  el.innerHTML = "";
+  SHIFT_UI.forEach(s=>{
+    const opt = document.createElement("option");
+    opt.value = s; opt.textContent = s;
+    el.appendChild(opt);
+  });
+  colorShiftSelect(el);
+  el.addEventListener("change", ()=> colorShiftSelect(el));
+}
+
+function buildReasonSelect(el){
+  el.innerHTML = "";
+  REASONS.forEach(r=>{
+    const opt = document.createElement("option");
+    opt.value = r;
+    opt.textContent = r === "" ? "-" : r;
+    el.appendChild(opt);
+  });
+}
+
+function divisiListFromEmployees(){
+  const set = new Set();
+  EMPLOYEES.forEach(e=> set.add((e.divisi||"Tanpa Divisi").trim() || "Tanpa Divisi"));
+  return [...set].sort((a,b)=> a.localeCompare(b,"id"));
+}
+
+function fillDivisiSelects(){
+  const list = divisiListFromEmployees();
+
+  const sel = $("divisiSelect");
+  sel.innerHTML = "";
+  list.forEach(d=>{
+    const opt = document.createElement("option");
+    opt.value = d; opt.textContent = d;
+    sel.appendChild(opt);
+  });
+
+  const rep = $("repDivisi");
+  rep.innerHTML = "";
+  const all = document.createElement("option");
+  all.value = "ALL"; all.textContent = "ALL";
+  rep.appendChild(all);
+  list.forEach(d=>{
+    const opt = document.createElement("option");
+    opt.value = d; opt.textContent = d;
+    rep.appendChild(opt);
+  });
+}
+
+function createMassalRow(){
+  const tr = document.createElement("tr");
+
+  const tdName = document.createElement("td");
+  const inpName = document.createElement("input");
+  inpName.placeholder = "Ketik nama...";
+  inpName.setAttribute("list","employeeList");
+  tdName.appendChild(inpName);
+
+  const tdShift = document.createElement("td");
+  const selShift = document.createElement("select");
+  buildShiftSelect(selShift);
+  tdShift.appendChild(selShift);
+
+  const tdLate = document.createElement("td");
+  const inpLate = document.createElement("input");
+  inpLate.type = "number"; inpLate.min = "0"; inpLate.placeholder = "0";
+  tdLate.appendChild(inpLate);
+
+  const tdPulang = document.createElement("td");
+  const inpPulang = document.createElement("input");
+  inpPulang.type = "time";
+  tdPulang.appendChild(inpPulang);
+
+  const tdReason = document.createElement("td");
+  const selReason = document.createElement("select");
+  buildReasonSelect(selReason);
+  tdReason.appendChild(selReason);
+
+  const tdAct = document.createElement("td");
+  const btnDel = document.createElement("button");
+  btnDel.className = "btn danger"; btnDel.type="button"; btnDel.textContent="Hapus";
+  btnDel.onclick = ()=> tr.remove();
+  tdAct.appendChild(btnDel);
+
+  inpPulang.addEventListener("change", ()=>{ if (inpPulang.value && !selReason.value) selReason.value = "LAINNYA"; });
+
+  tr.appendChild(tdName);
+  tr.appendChild(tdShift);
+  tr.appendChild(tdLate);
+  tr.appendChild(tdPulang);
+  tr.appendChild(tdReason);
+  tr.appendChild(tdAct);
+  return tr;
+}
+
+function getEmpByName(name){
+  const n = (name||"").trim().toUpperCase();
+  return EMPLOYEES.find(e => (e.nama||"").trim().toUpperCase() === n);
+}
+
+/***********************
+ LOAD BASE DATA
+************************/
+async function loadEmployees(){
+  const res = await apiGet("getEmployees");
+  if (res.status !== "success") throw new Error(res.message || "getEmployees gagal");
+  EMPLOYEES = res.data || [];
+  buildDatalist();
+  fillDivisiSelects();
+  renderEmployeesTable();
+  renderDivisiTable();
+}
+
+async function loadAbsenByDate(dateStr){
+  const res = await apiGet("getAbsenByDate", { tanggal: dateStr });
+  if (res.status !== "success") throw new Error(res.message || "getAbsenByDate gagal");
+  ABSEN_HARI = res.data || [];
+  return ABSEN_HARI;
+}
+
+function getAbsenOneLocal(employee_id){
+  return ABSEN_HARI.find(x => String(x.employee_id||"").trim() === String(employee_id||"").trim());
+}
+
+/***********************
+ ABSENSI: MASSAL SUBMIT
+************************/
+function collectMassalEntries(){
+  const rows = [...$("tbodyMassal").querySelectorAll("tr")];
+  const entries = [];
+  const seen = new Set();
+
+  for (const tr of rows){
+    const name = tr.children[0].querySelector("input").value.trim();
+    if (!name) continue;
+
+    const emp = getEmpByName(name);
+    if (!emp) throw new Error(`Nama tidak ditemukan: ${name}`);
+
+    if (seen.has(emp.employee_id)) throw new Error(`Nama dobel di form: ${emp.nama}`);
+    seen.add(emp.employee_id);
+
+    const shiftUI = tr.children[1].querySelector("select").value.trim().toUpperCase();
+    const telat = Number(tr.children[2].querySelector("input").value || 0) || 0;
+    const pulang = tr.children[3].querySelector("input").value || "";
+    const reason = tr.children[4].querySelector("select").value || "";
+
+    entries.push({
+      employee_id: emp.employee_id,
+      nama: emp.nama,
+      shift: toBackendShift(shiftUI),
+      telat_menit: telat,
+      pulang_jam: pulang,
+      pulang_reason: reason
+    });
+  }
+  return entries;
+}
+
+async function submitBulk(dateStr, entries){
+  const res = await apiPost("bulkSubmit", { tanggal: dateStr, entries });
+  if (res.status !== "success") throw new Error(res.message || "bulkSubmit gagal");
+  return res;
+}
+
+/***********************
+ ABSENSI: DIVISI MODE
+************************/
+function renderDivisiTable(){
+  const div = $("divisiSelect").value || "";
+  const tbody = $("tbodyDivisi");
+  tbody.innerHTML = "";
+
+  const list = EMPLOYEES
+    .filter(e => (e.divisi||"Tanpa Divisi").trim() === div)
+    .sort((a,b)=> String(a.nama||"").localeCompare(String(b.nama||""),"id"));
+
+  $("divisiInfo").textContent = `Karyawan: ${list.length}`;
+
+  for (const emp of list){
+    const tr = document.createElement("tr");
+
+    const tdC = document.createElement("td");
+    const chk = document.createElement("input"); chk.type="checkbox";
+    tdC.appendChild(chk);
+
+    const tdN = document.createElement("td");
+    tdN.textContent = emp.nama;
+
+    const tdS = document.createElement("td");
+    const selShift = document.createElement("select");
+    buildShiftSelect(selShift);
+    tdS.appendChild(selShift);
+
+    const tdL = document.createElement("td");
+    const inpLate = document.createElement("input");
+    inpLate.type="number"; inpLate.min="0"; inpLate.placeholder="0";
+    tdL.appendChild(inpLate);
+
+    const tdP = document.createElement("td");
+    const inpP = document.createElement("input");
+    inpP.type="time";
+    tdP.appendChild(inpP);
+
+    const tdR = document.createElement("td");
+    const selR = document.createElement("select");
+    buildReasonSelect(selR);
+    tdR.appendChild(selR);
+
+    const tdSt = document.createElement("td");
+    const status = document.createElement("span");
+    status.className = "chip";
+    status.innerHTML = `<span class="dot warn"></span><span>Belum load</span>`;
+    tdSt.appendChild(status);
+
+    const exist = getAbsenOneLocal(emp.employee_id);
+    if (exist){
+      chk.checked = true;
+      const uiShift = fromBackendShift(exist.shift || "P");
+      selShift.value = uiShift;
+      colorShiftSelect(selShift);
+      inpLate.value = Number(exist.telat_menit || 0) || 0;
+      inpP.value = exist.pulang_jam || "";
+      selR.value = exist.pulang_reason || "";
+      status.innerHTML = `<span class="dot ok"></span><span>Sudah absen</span>`;
+    }
+
+    inpP.addEventListener("change", ()=>{ if (inpP.value && !selR.value) selR.value = "LAINNYA"; });
+
+    tr.dataset.employee_id = emp.employee_id;
+
+    tr.appendChild(tdC);
+    tr.appendChild(tdN);
+    tr.appendChild(tdS);
+    tr.appendChild(tdL);
+    tr.appendChild(tdP);
+    tr.appendChild(tdR);
+    tr.appendChild(tdSt);
+
+    tbody.appendChild(tr);
+  }
+}
+
+function collectDivisiEntries(){
+  const rows = [...$("tbodyDivisi").querySelectorAll("tr")];
+  const entries = [];
+
+  for (const tr of rows){
+    const chk = tr.children[0].querySelector("input");
+    if (!chk.checked) continue;
+
+    const employee_id = tr.dataset.employee_id;
+    const emp = EMPLOYEES.find(e=> e.employee_id === employee_id);
+    if (!emp) continue;
+
+    const shiftUI = tr.children[2].querySelector("select").value.trim().toUpperCase();
+    const telat = Number(tr.children[3].querySelector("input").value || 0) || 0;
+    const pulang = tr.children[4].querySelector("input").value || "";
+    const reason = tr.children[5].querySelector("select").value || "";
+
+    entries.push({
+      employee_id,
+      nama: emp.nama,
+      shift: toBackendShift(shiftUI),
+      telat_menit: telat,
+      pulang_jam: pulang,
+      pulang_reason: reason
+    });
+  }
+  return entries;
+}
+
+/***********************
+ EDIT ABSEN
+************************/
+async function loadOneForEdit(){
+  const tanggal = $("editTanggal").value;
+  const name = $("editNama").value.trim();
+  if (!tanggal) throw new Error("Tanggal wajib diisi");
+  if (!name) throw new Error("Nama wajib diisi");
+
+  const emp = getEmpByName(name);
+  if (!emp) throw new Error("Nama tidak ditemukan di EMPLOYEES");
+
+  const res = await apiGet("getAbsenOne", { tanggal, employee_id: emp.employee_id });
+  if (res.status !== "success") throw new Error(res.message || "getAbsenOne gagal");
+
+  const d = res.data;
+  $("editShift").value = fromBackendShift(d.shift || "P");
+  colorShiftSelect($("editShift"));
+  $("editTelat").value = Number(d.telat_menit || 0) || 0;
+  $("editPulang").value = d.pulang_jam || "";
+  $("editReason").value = d.pulang_reason || "";
+
+  $("editInfo").textContent = `Loaded: ${d.nama} (${d.employee_id})`;
+}
+
+async function updateOne(){
+  const tanggal = $("editTanggal").value;
+  const name = $("editNama").value.trim();
+  if (!tanggal || !name) throw new Error("Tanggal & Nama wajib");
+
+  const emp = getEmpByName(name);
+  if (!emp) throw new Error("Nama tidak ditemukan");
+
+  const payload = {
+    tanggal,
+    employee_id: emp.employee_id,
+    shift: toBackendShift($("editShift").value),
+    telat_menit: Number($("editTelat").value || 0) || 0,
+    pulang_jam: $("editPulang").value || "",
+    pulang_reason: $("editReason").value || ""
+  };
+
+  const res = await apiPost("updateAbsenOne", payload);
+  if (res.status !== "success") throw new Error(res.message || "updateAbsenOne gagal");
+  return res;
+}
+
+/***********************
+ KARYAWAN UI
+************************/
+function renderEmployeesTable(){
+  const q = $("empSearch").value.trim().toUpperCase();
+  const tbody = $("tbodyEmp");
+  tbody.innerHTML = "";
+
+  const list = EMPLOYEES
+    .filter(e => !q || String(e.nama||"").toUpperCase().includes(q))
+    .sort((a,b)=> String(a.nama||"").localeCompare(String(b.nama||""),"id"));
+
+  for (const e of list){
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${escapeHtml(e.employee_id)}</td>
+      <td>${escapeHtml(e.nama)}</td>
+      <td>${escapeHtml(e.divisi || "")}</td>
+      <td>${escapeHtml(e.lantai || "")}</td>
+      <td>
+        <button class="btn secondary" type="button" data-act="pick">Pilih</button>
+        <button class="btn danger" type="button" data-act="off">Nonaktif</button>
+      </td>
+    `;
+
+    tr.querySelector('[data-act="pick"]').onclick = ()=>{
+      $("empId").value = e.employee_id;
+      $("empNama").value = e.nama;
+      $("empDivisi").value = e.divisi || "";
+      $("empLantai").value = e.lantai || "";
+      setMsg($("msgEmpForm"), `Dipilih: ${e.nama} (${e.employee_id})`, "ok");
+    };
+
+    tr.querySelector('[data-act="off"]').onclick = async ()=>{
+      if (!confirm(`Nonaktifkan ${e.nama} (${e.employee_id})?`)) return;
+      try{
+        const r = await apiPost("employeeSetActive", { employee_id: e.employee_id, active:"FALSE" });
+        if (r.status !== "success") throw new Error(r.message || "gagal");
+        setMsg($("msgEmp"), r.message, "ok");
+        await loadEmployees();
+      }catch(err){
+        setMsg($("msgEmp"), err.message, "bad");
+      }
+    };
+
+    tbody.appendChild(tr);
+  }
+}
+
+/***********************
+ LAPORAN
+************************/
+function initReportSelectors(){
+  const now = new Date();
+  const y = now.getFullYear();
+
+  const ySel = $("repYear");
+  ySel.innerHTML = "";
+  for (let yy = y-1; yy <= y+1; yy++){
+    const opt = document.createElement("option");
+    opt.value = String(yy);
+    opt.textContent = String(yy);
+    if (yy === y) opt.selected = true;
+    ySel.appendChild(opt);
+  }
+
+  const mSel = $("repMonth");
+  mSel.innerHTML = "";
+  const months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  months.forEach((m, idx)=>{
+    const opt = document.createElement("option");
+    opt.value = String(idx+1);
+    opt.textContent = m;
+    if (idx === now.getMonth()) opt.selected = true;
+    mSel.appendChild(opt);
+  });
+}
+
+/***********************
+ LOG ADMIN
+************************/
+function renderLogTable(items){
+  const tbody = $("tbodyLog");
+  tbody.innerHTML = "";
+  for (const r of items){
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${escapeHtml(r.timestamp)}</td>
+      <td>${escapeHtml(r.admin)}</td>
+      <td>${escapeHtml(r.action)}</td>
+      <td>${escapeHtml(r.target_type)}</td>
+      <td>${escapeHtml(r.target_id)}</td>
+      <td>${escapeHtml(r.note)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+/***********************
+ UI TABS
+************************/
+function switchMainTab(tab){
+  document.querySelectorAll(".tabbtn").forEach(b=> b.classList.toggle("active", b.dataset.tab === tab));
+  $("tab-absensi").classList.toggle("hidden", tab !== "absensi");
+  $("tab-karyawan").classList.toggle("hidden", tab !== "karyawan");
+  $("tab-laporan").classList.toggle("hidden", tab !== "laporan");
+  $("tab-log").classList.toggle("hidden", tab !== "log");
+}
+function switchAbsensiSub(sub){
+  document.querySelectorAll('#tab-absensi .subtab[data-sub]').forEach(b=> b.classList.toggle("active", b.dataset.sub === sub));
+  $("sub-absen").classList.toggle("hidden", sub !== "absen");
+  $("sub-edit").classList.toggle("hidden", sub !== "edit");
+}
+function switchAbsenMode(mode){
+  document.querySelectorAll('#sub-absen .subtab[data-sub2]').forEach(b=> b.classList.toggle("active", b.dataset.sub2 === mode));
+  $("mode-massal").classList.toggle("hidden", mode !== "massal");
+  $("mode-divisi").classList.toggle("hidden", mode !== "divisi");
+}
+
+document.querySelectorAll(".tabbtn").forEach(btn=>{
+  btn.addEventListener("click", ()=> switchMainTab(btn.dataset.tab));
+});
+document.querySelectorAll('#tab-absensi .subtab[data-sub]').forEach(btn=>{
+  btn.addEventListener("click", ()=> switchAbsensiSub(btn.dataset.sub));
+});
+document.querySelectorAll('#sub-absen .subtab[data-sub2]').forEach(btn=>{
+  btn.addEventListener("click", ()=> switchAbsenMode(btn.dataset.sub2));
+});
+
+/***********************
+ EVENTS
+************************/
+$("btnLogout").addEventListener("click", ()=>{
+  clearSession();
+  $("view-app").classList.add("hidden");
+  $("view-login").classList.remove("hidden");
+  setMsg($("msgLogin"), "Logout.", "warn");
+});
+
+$("btnLogin").addEventListener("click", async ()=>{
+  const u = $("loginUsername").value.trim();
+  const p = $("loginPassword").value;
+  setMsg($("msgLogin"), "Login...", "");
+  try{
+    const res = await apiLogin(u,p);
+    if (res.status !== "success") throw new Error(res.message || "Login gagal");
+    setSession(res.token, res.username, res.role || "ADMIN");
+
+    $("view-login").classList.add("hidden");
+    $("view-app").classList.remove("hidden");
+    $("repPrintedBy").value = USER || "";
+
+    setMsg($("msgLogin"), "", "");
+    await loadEmployees();
+    await loadInitialAbsenStatus();
+    setMsg($("msgMassal"), "Login sukses. Data employees loaded.", "ok");
+  }catch(err){
+    setMsg($("msgLogin"), err.message, "bad");
+  }
+});
+
+$("btnAddRow").addEventListener("click", ()=> $("tbodyMassal").appendChild(createMassalRow()));
+$("btnClearRows").addEventListener("click", ()=>{
+  $("tbodyMassal").innerHTML = "";
+  for (let i=0;i<5;i++) $("tbodyMassal").appendChild(createMassalRow());
+  setMsg($("msgMassal"), "", "");
+});
+
+$("btnLoadAbsenHari").addEventListener("click", async ()=>{
+  const tanggal = $("absenTanggal").value;
+  if (!tanggal) return setMsg($("msgMassal"), "Tanggal wajib diisi.", "bad");
+  setMsg($("msgMassal"), "Loading absen tanggal " + tanggal + "...", "");
+  try{
+    await loadAbsenByDate(tanggal);
+    $("absenStatusChip").innerHTML = `<span class="dot ok"></span><span>Loaded (${ABSEN_HARI.length} record)</span>`;
+    setMsg($("msgMassal"), `Loaded ${ABSEN_HARI.length} record absen tanggal ${tanggal}.`, "ok");
+    renderDivisiTable();
+  }catch(err){
+    $("absenStatusChip").innerHTML = `<span class="dot bad"></span><span>Load gagal</span>`;
+    setMsg($("msgMassal"), err.message, "bad");
+  }
+});
+
+$("btnSubmitMassal").addEventListener("click", async ()=>{
+  const tanggal = $("absenTanggal").value;
+  if (!tanggal) return setMsg($("msgMassal"), "Tanggal wajib diisi.", "bad");
+
+  let entries;
+  try{ entries = collectMassalEntries(); }
+  catch(err){ return setMsg($("msgMassal"), err.message, "bad"); }
+
+  if (!entries.length) return setMsg($("msgMassal"), "Tidak ada baris valid.", "bad");
+
+  $("btnSubmitMassal").disabled = true;
+  setMsg($("msgMassal"), "Submit massal...", "");
+  try{
+    const r = await submitBulk(tanggal, entries);
+    setMsg($("msgMassal"), r.message, "ok");
+    await loadAbsenByDate(tanggal);
+    renderDivisiTable();
+  }catch(err){
+    setMsg($("msgMassal"), err.message, "bad");
+  }finally{
+    $("btnSubmitMassal").disabled = false;
+  }
+});
+
+$("divisiSelect").addEventListener("change", ()=> renderDivisiTable());
+$("btnCheckAll").addEventListener("click", ()=> $("tbodyDivisi").querySelectorAll('input[type="checkbox"]').forEach(c=> c.checked = true));
+$("btnUncheckAll").addEventListener("click", ()=> $("tbodyDivisi").querySelectorAll('input[type="checkbox"]').forEach(c=> c.checked = false));
+
+$("btnSubmitDivisi").addEventListener("click", async ()=>{
+  const tanggal = $("absenTanggal").value;
+  if (!tanggal) return setMsg($("msgDivisi"), "Tanggal wajib diisi.", "bad");
+
+  const entries = collectDivisiEntries();
+  if (!entries.length) return setMsg($("msgDivisi"), "Tidak ada yang dicentang.", "bad");
+
+  $("btnSubmitDivisi").disabled = true;
+  setMsg($("msgDivisi"), "Submit divisi...", "");
+  try{
+    const r = await submitBulk(tanggal, entries);
+    setMsg($("msgDivisi"), r.message, "ok");
+    await loadAbsenByDate(tanggal);
+    renderDivisiTable();
+  }catch(err){
+    setMsg($("msgDivisi"), err.message, "bad");
+  }finally{
+    $("btnSubmitDivisi").disabled = false;
+  }
+});
+
+// edit
+$("btnLoadOne").addEventListener("click", async ()=>{
+  setMsg($("msgEdit"), "Loading...", "");
+  try{
+    await loadOneForEdit();
+    setMsg($("msgEdit"), "Data loaded.", "ok");
+  }catch(err){
+    setMsg($("msgEdit"), err.message, "bad");
+  }
+});
+$("btnUpdateOne").addEventListener("click", async ()=>{
+  $("btnUpdateOne").disabled = true;
+  setMsg($("msgEdit"), "Updating...", "");
+  try{
+    const r = await updateOne();
+    setMsg($("msgEdit"), r.message, "ok");
+    const t = $("editTanggal").value;
+    if (t){ await loadAbsenByDate(t); renderDivisiTable(); }
+  }catch(err){
+    setMsg($("msgEdit"), err.message, "bad");
+  }finally{
+    $("btnUpdateOne").disabled = false;
+  }
+});
+
+// karyawan
+$("empSearch").addEventListener("input", ()=> renderEmployeesTable());
+$("btnReloadEmp").addEventListener("click", async ()=>{
+  setMsg($("msgEmp"), "Reloading...", "");
+  try{ await loadEmployees(); setMsg($("msgEmp"), "Reload sukses.", "ok"); }
+  catch(err){ setMsg($("msgEmp"), err.message, "bad"); }
+});
+
+$("btnEmpCreate").addEventListener("click", async ()=>{
+  const employee_id = $("empId").value.trim();
+  const nama = $("empNama").value.trim();
+  const divisi = $("empDivisi").value.trim();
+  const lantai = $("empLantai").value.trim();
+  if (!employee_id || !nama) return setMsg($("msgEmpForm"), "employee_id & nama wajib.", "bad");
+
+  $("btnEmpCreate").disabled = true;
+  setMsg($("msgEmpForm"), "Creating...", "");
+  try{
+    const r = await apiPost("employeeCreate", { employee_id, nama, divisi, lantai, active:"TRUE" });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpCreate").disabled = false;
+  }
+});
+
+$("btnEmpUpdate").addEventListener("click", async ()=>{
+  const employee_id = $("empId").value.trim();
+  if (!employee_id) return setMsg($("msgEmpForm"), "employee_id wajib.", "bad");
+
+  const nama = $("empNama").value.trim();
+  const divisi = $("empDivisi").value.trim();
+  const lantai = $("empLantai").value.trim();
+
+  $("btnEmpUpdate").disabled = true;
+  setMsg($("msgEmpForm"), "Updating...", "");
+  try{
+    const r = await apiPost("employeeUpdate", { employee_id, nama, divisi, lantai });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpUpdate").disabled = false;
+  }
+});
+
+$("btnEmpDeactivate").addEventListener("click", async ()=>{
+  const employee_id = $("empId").value.trim();
+  if (!employee_id) return setMsg($("msgEmpForm"), "employee_id wajib.", "bad");
+  if (!confirm(`Nonaktifkan ${employee_id}?`)) return;
+
+  $("btnEmpDeactivate").disabled = true;
+  setMsg($("msgEmpForm"), "Setting active FALSE...", "");
+  try{
+    const r = await apiPost("employeeSetActive", { employee_id, active:"FALSE" });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpDeactivate").disabled = false;
+  }
+});
+
+$("btnEmpReact").addEventListener("click", async ()=>{
+  const employee_id = $("empReactId").value.trim();
+  if (!employee_id) return setMsg($("msgEmpForm"), "employee_id wajib.", "bad");
+
+  $("btnEmpReact").disabled = true;
+  setMsg($("msgEmpForm"), "Setting active TRUE...", "");
+  try{
+    const r = await apiPost("employeeSetActive", { employee_id, active:"TRUE" });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpReact").disabled = false;
+  }
+});
+
+// laporan
+$("btnGenPdf").addEventListener("click", async ()=>{
+  const year = $("repYear").value;
+  const month = $("repMonth").value;
+  const divisi = $("repDivisi").value;
+  const printedBy = ($("repPrintedBy").value.trim() || USER || "-");
+
+  $("btnDownload").classList.add("hidden");
+  $("btnView").classList.add("hidden");
+  setMsg($("msgLaporan"), "Generating PDF...", "");
+
+  try{
+    const params = { year, month, printedBy };
+    if (divisi && divisi !== "ALL") params.divisi = divisi;
+
+    const res = await apiGet("generateRekapPdf", params);
+    if (res.status !== "success") throw new Error(res.message || "generateRekapPdf gagal");
+
+    $("btnDownload").href = res.downloadUrl;
+    $("btnView").href = res.fileUrl;
+    $("btnDownload").classList.remove("hidden");
+    $("btnView").classList.remove("hidden");
+
+    setMsg($("msgLaporan"), `Sukses: ${res.fileName}`, "ok");
+  }catch(err){
+    setMsg($("msgLaporan"), err.message, "bad");
+  }
+});
+
+// log
+$("btnLoadLog").addEventListener("click", async ()=>{
+  setMsg($("msgLog"), "Loading log...", "");
+  try{
+    const params = {};
+    if ($("logStart").value) params.start = $("logStart").value;
+    if ($("logEnd").value) params.end = $("logEnd").value;
+
+    const res = await apiGet("getAdminLog", params);
+    if (res.status !== "success") throw new Error(res.message || "getAdminLog gagal");
+    renderLogTable(res.data || []);
+    setMsg($("msgLog"), `Loaded ${(res.data||[]).length} log (max 500).`, "ok");
+  }catch(err){
+    setMsg($("msgLog"), err.message, "bad");
+  }
+});
+
+/***********************
+ BOOT
+************************/
+async function loadInitialAbsenStatus(){
+  const t = $("absenTanggal").value;
+  if (!t) return;
+  try{
+    await loadAbsenByDate(t);
+    $("absenStatusChip").innerHTML = `<span class="dot ok"></span><span>Loaded (${ABSEN_HARI.length} record)</span>`;
+    renderDivisiTable();
+  }catch(_){
+    $("absenStatusChip").innerHTML = `<span class="dot warn"></span><span>Belum load</span>`;
+  }
+}
+
+(function boot(){
+  refreshSessionPill();
+
+  const today = ymd(new Date());
+  $("absenTanggal").value = today;
+  $("editTanggal").value = today;
+
+  buildShiftSelect($("editShift"));
+  buildReasonSelect($("editReason"));
+  initReportSelectors();
+
+  $("tbodyMassal").innerHTML = "";
+  for (let i=0;i<5;i++) $("tbodyMassal").appendChild(createMassalRow());
+
+  if (TOKEN){
+    $("view-login").classList.add("hidden");
+    $("view-app").classList.remove("hidden");
+    $("repPrintedBy").value = USER || "";
+    loadEmployees()
+      .then(loadInitialAbsenStatus)
+      .catch(err=>{
+        clearSession();
+        $("view-app").classList.add("hidden");
+        $("view-login").classList.remove("hidden");
+        setMsg($("msgLogin"), "Session expired, silakan login ulang.\n" + err.message, "bad");
+      });
+  }
+})();
+</script>
+</body>
+</html>
