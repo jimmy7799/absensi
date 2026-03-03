@@ -9,8 +9,6 @@
     :root{
       --bg:#f6f7fb;
       --panel:#ffffff;
-      --panel2:#ffffff;
-
       --text:#101827;
       --muted:#5b6476;
       --line:rgba(16,24,39,.12);
@@ -19,22 +17,54 @@
       --warn:#f59e0b;
       --bad:#dc2626;
 
-      --brand:#dc2626;      /* merah */
+      --brand:#dc2626;
       --brandSoft:rgba(220,38,38,.10);
       --chip:#f1f3f8;
+
+      --radius:12px;
     }
 
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
       background:linear-gradient(180deg,var(--bg),#ffffff);
       color:var(--text);
       font-family:Arial, Helvetica, sans-serif;
+      overflow-x:hidden; /* FIX: biar gak melebar */
     }
-    .wrap{max-width:1200px;margin:0 auto;padding:16px;}
-    .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:12px;}
-    .brand{font-weight:900;letter-spacing:.2px}
-    .right{display:flex;gap:10px;align-items:center}
+
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      padding:12px;
+    }
+
+    /* TOPBAR */
+    .topbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      font-weight:900;
+      letter-spacing:.2px;
+      font-size:15px;
+    }
+    .right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+    /* FLAT PANEL (tanpa card besar) */
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:12px;
+    }
+    .panel + .panel{margin-top:10px;}
 
     .pill{
       font-size:12px;color:var(--muted);
@@ -48,98 +78,82 @@
       color:var(--text);
       padding:9px 12px;border-radius:10px;cursor:pointer;
       display:inline-flex;gap:8px;align-items:center;text-decoration:none;
-      font-weight:700;
+      font-weight:800;
+      white-space:nowrap;
     }
-    .btn.secondary{border-color:var(--line);background:#fff;font-weight:700}
+    .btn.secondary{border-color:var(--line);background:#fff}
     .btn.danger{border-color:rgba(220,38,38,.75);background:rgba(220,38,38,.16)}
     .btn:disabled{opacity:.5;cursor:not-allowed}
 
-    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;}
+    /* TABS */
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
     .tabbtn{
       border:1px solid var(--line);
       background:#fff;
       color:var(--text);
-      padding:10px 12px;border-radius:10px;cursor:pointer;
-      font-weight:800;
+      padding:10px 12px;border-radius:12px;cursor:pointer;
+      font-weight:900;
+      flex:1;
+      min-width:140px;
+      text-align:center;
     }
     .tabbtn.active{
       border-color:rgba(220,38,38,.55);
       background:var(--brandSoft);
     }
 
-    .card{
-      background:linear-gradient(180deg,var(--panel),var(--panel2));
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:14px;
-      box-shadow:0 18px 30px rgba(16,24,39,.06);
-    }
-
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
-    .col-3{grid-column:span 3}
-    .col-4{grid-column:span 4}
-    .col-6{grid-column:span 6}
-    .col-12{grid-column:span 12}
-
-    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700}
-    input,select,textarea{
-      width:100%;
-      border:1px solid var(--line);
-      background:#fff;color:var(--text);
-      padding:10px;border-radius:10px;outline:none;
-      font-family:inherit;
-    }
-    textarea{min-height:42px; resize:vertical;}
-    input::placeholder{color:rgba(16,24,39,.40)}
-
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .hint{font-size:12px;color:var(--muted);line-height:1.4}
-    .msg{margin-top:10px;font-size:12px;white-space:pre-wrap}
-    .msg.ok{color:var(--ok);font-weight:700}
-    .msg.bad{color:var(--bad);font-weight:700}
-    .msg.warn{color:var(--warn);font-weight:700}
-    .divider{height:1px;background:var(--line);margin:12px 0}
-    .hidden{display:none!important}
-
-    table{
-      width:100%;
-      border-collapse:separate;
-      border-spacing:0;
-      margin-top:10px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      overflow:hidden
-    }
-    th,td{padding:9px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}
-    th{background:#fbfbfd;color:var(--muted);text-align:left}
-    tr:last-child td{border-bottom:none}
-    .small{font-size:11px;color:var(--muted)}
-
-    .chip{
-      display:inline-flex;gap:6px;align-items:center;
-      background:#fff;border:1px solid var(--line);
-      padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted);
-      font-weight:700;
-    }
-    .dot{width:8px;height:8px;border-radius:50%}
-    .dot.ok{background:var(--ok)}
-    .dot.warn{background:var(--warn)}
-    .dot.bad{background:var(--bad)}
-
-    .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;}
     .subtab{
-      padding:8px 10px;border-radius:10px;border:1px solid var(--line);
-      background:#fff;cursor:pointer;font-size:12px;font-weight:800;
+      padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+      background:#fff;cursor:pointer;font-size:12px;font-weight:900;
+      flex:1;
+      min-width:140px;
+      text-align:center;
     }
     .subtab.active{
       background:rgba(22,163,74,.10);
       border-color:rgba(22,163,74,.35);
     }
 
-    .split{display:flex;gap:12px;flex-wrap:wrap}
-    .box{flex:1;min-width:320px}
-    .sectionTitle{font-weight:900;margin:0 0 10px 0}
+    /* FORM */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
+    .col-3{grid-column:span 3}
+    .col-4{grid-column:span 4}
+    .col-6{grid-column:span 6}
+    .col-12{grid-column:span 12}
 
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:800}
+    input,select,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;color:var(--text);
+      padding:10px;border-radius:10px;outline:none;
+      font-size:14px;
+    }
+    textarea{min-height:38px;resize:vertical}
+    input::placeholder{color:rgba(16,24,39,.40)}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .hint{font-size:12px;color:var(--muted);line-height:1.4}
+    .msg{margin-top:10px;font-size:12px;white-space:pre-wrap}
+    .msg.ok{color:var(--ok);font-weight:900}
+    .msg.bad{color:var(--bad);font-weight:900}
+    .msg.warn{color:var(--warn);font-weight:900}
+    .divider{height:1px;background:var(--line);margin:12px 0}
+    .hidden{display:none!important}
+
+    .chip{
+      display:inline-flex;gap:6px;align-items:center;
+      background:#fff;border:1px solid var(--line);
+      padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted);
+      font-weight:800;
+    }
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.ok{background:var(--ok)}
+    .dot.warn{background:var(--warn)}
+    .dot.bad{background:var(--bad)}
+
+    /* TABLE: FIX overflow */
     .tableWrap{
       width:100%;
       overflow-x:auto;
@@ -147,100 +161,33 @@
       border:1px solid var(--line);
       border-radius:12px;
       background:#fff;
-      margin-top:10px;
     }
-    .tableWrap table{
-      min-width: 980px;
-      border:none;
-      margin:0;
-      border-radius:0;
-    }
+    table{width:100%;border-collapse:collapse;min-width:760px;}
+    th,td{padding:9px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}
+    th{background:#fbfbfd;color:var(--muted);text-align:left;font-weight:900}
+    tr:last-child td{border-bottom:none}
+    .small{font-size:11px;color:var(--muted)}
 
-    .toggleRow{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-top:8px;
+    /* SHIFT CHIPS (kecil) */
+    .shiftChip{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:4px 10px;border-radius:999px;font-size:12px;
+      border:1px solid var(--line);background:var(--chip);
+      min-width:52px;font-weight:900;
     }
-    .tCheck{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:#fff;
-      font-weight:900;
-      color:var(--muted);
-      cursor:pointer;
-      user-select:none;
-    }
-    .tCheck input{width:auto; margin:0;}
-    .tTelat{border-color:rgba(245,158,11,.35); background:rgba(245,158,11,.06); color:#92400e;}
-    .tPulang{border-color:rgba(220,38,38,.30); background:rgba(220,38,38,.06); color:#7f1d1d;}
+    .shift-P{ background:#e0f2fe; border-color:#7dd3fc; }
+    .shift-S{ background:#ecfccb; border-color:#bef264; }
+    .shift-M{ background:#fae8ff; border-color:#e879f9; }
+    .shift-FT{ background:#fff7ed; border-color:#fdba74; }
+    .shift-OFF{ background:#fee2e2; border-color:#fca5a5; }
+    .shift-IJIN{ background:#fef9c3; border-color:#fde047; }
+    .shift-SKT{ background:#ede9fe; border-color:#c4b5fd; }
 
-    .onlyDesktop{display:block;}
-    .onlyMobile{display:none;}
-
-    .cardList{display:grid; gap:10px; margin-top:10px;}
-    .miniCard{
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:#fff;
-      padding:12px;
-      box-shadow:0 10px 18px rgba(16,24,39,.06);
-    }
-    .miniHead{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-bottom:10px;
-    }
-    .miniName{
-      font-weight:900;
-      font-size:14px;
-      line-height:1.2;
-    }
-    .miniActions{display:flex; gap:8px; align-items:center;}
-    .miniGrid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-    .miniGrid .full{grid-column:1 / -1;}
-    .miniLabel{
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:6px;
-      font-weight:800;
-    }
-
+    /* MOBILE */
     @media (max-width:900px){
       .col-3,.col-4,.col-6{grid-column:span 12}
-    }
-
-    @media (max-width:640px){
-      .wrap{ padding:12px; }
-      .topbar{flex-direction:column;align-items:flex-start;gap:10px;}
-      .brand{ font-size:16px; line-height:1.2; }
-      .right{ width:100%; justify-content:space-between; }
-
-      .tabs{ gap:6px; }
-      .tabbtn{ flex:1; text-align:center; padding:12px 10px; font-size:13px; }
-
-      .subtabs{ gap:6px; }
-      .subtab{ flex:1; text-align:center; padding:10px 8px; font-size:12px; }
-
-      input,select,textarea{ padding:12px; font-size:16px; }
-      .btn{ padding:12px 12px; font-size:14px; }
-
-      .onlyDesktop{display:none !important;}
-      .onlyMobile{display:block !important;}
-
-      .miniGrid{grid-template-columns:1fr;}
-      .tableWrap table{ min-width: 860px; }
+      .wrap{padding:10px}
+      .tabbtn,.subtab{min-width:0}
     }
   </style>
 </head>
@@ -256,8 +203,8 @@
     </div>
 
     <!-- LOGIN -->
-    <section id="view-login" class="card">
-      <h3 class="sectionTitle">Admin Login</h3>
+    <section id="view-login" class="panel">
+      <div style="font-weight:900;margin-bottom:10px">Admin Login</div>
       <div class="grid">
         <div class="col-4">
           <label>Username</label>
@@ -272,7 +219,7 @@
           <button id="btnLogin" class="btn" type="button" style="width:100%">Login</button>
         </div>
         <div class="col-12">
-          <div class="hint">Login diperlukan. Token disimpan lokal di browser (localStorage).</div>
+          <div class="hint">Token disimpan lokal di browser (localStorage).</div>
           <div id="msgLogin" class="msg"></div>
         </div>
       </div>
@@ -288,7 +235,7 @@
       </div>
 
       <!-- ABSENSI -->
-      <section id="tab-absensi" class="card">
+      <section id="tab-absensi" class="panel">
         <div class="subtabs">
           <button class="subtab active" data-sub="absen">1A. Absen</button>
           <button class="subtab" data-sub="edit">1B. Edit Absen</button>
@@ -318,13 +265,13 @@
               <div class="hint">
                 SHIFT: <b>P/S/M/FT/OFF/IJIN/SKT</b>.
                 P/S/M/FT bisa centang TELAT dan/atau PULANG.
-                IJIN/SKT muncul keterangan (disimpan ke backend sebagai pulang_reason).
+                IJIN/SKT bisa isi keterangan (disimpan ke <code>pulang_reason</code>).
               </div>
             </div>
           </div>
 
           <!-- MASSAL -->
-          <div id="mode-massal" class="box">
+          <div id="mode-massal">
             <div class="divider"></div>
             <div class="row">
               <button class="btn secondary" id="btnAddRow">+ Tambah Baris</button>
@@ -335,33 +282,30 @@
 
             <datalist id="employeeList"></datalist>
 
-            <!-- DESKTOP TABLE -->
-            <div class="tableWrap onlyDesktop">
+            <div class="divider"></div>
+            <div class="tableWrap">
               <table>
                 <thead>
                   <tr>
-                    <th style="width:22%">Nama</th>
+                    <th style="width:28%">Nama</th>
                     <th style="width:12%">Shift</th>
-                    <th style="width:10%">Telat?</th>
+                    <th style="width:12%">Telat?</th>
                     <th style="width:12%">Telat (menit)</th>
-                    <th style="width:10%">Pulang?</th>
+                    <th style="width:12%">Pulang?</th>
                     <th style="width:12%">Pulang (jam)</th>
-                    <th style="width:16%">Keterangan</th>
-                    <th style="width:6%">Aksi</th>
+                    <th style="width:12%">Keterangan</th>
+                    <th style="width:10%">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyMassal"></tbody>
               </table>
             </div>
 
-            <!-- MOBILE CARDS -->
-            <div id="cardsMassal" class="cardList onlyMobile"></div>
-
             <div id="msgMassal" class="msg"></div>
           </div>
 
           <!-- DIVISI -->
-          <div id="mode-divisi" class="box hidden">
+          <div id="mode-divisi" class="hidden">
             <div class="divider"></div>
             <div class="grid">
               <div class="col-4">
@@ -384,34 +328,31 @@
               </div>
             </div>
 
-            <!-- DESKTOP TABLE -->
-            <div class="tableWrap onlyDesktop">
+            <div class="divider"></div>
+            <div class="tableWrap">
               <table>
                 <thead>
                   <tr>
                     <th style="width:6%">✓</th>
-                    <th style="width:22%">Nama</th>
-                    <th style="width:12%">Shift</th>
-                    <th style="width:10%">Telat?</th>
-                    <th style="width:12%">Menit</th>
-                    <th style="width:10%">Pulang?</th>
-                    <th style="width:12%">Jam</th>
-                    <th style="width:16%">Keterangan</th>
-                    <th style="width:10%">Status</th>
+                    <th style="width:24%">Nama</th>
+                    <th style="width:10%">Shift</th>
+                    <th style="width:8%">Telat?</th>
+                    <th style="width:12%">Telat Menit</th>
+                    <th style="width:8%">Pulang?</th>
+                    <th style="width:12%">Pulang Jam</th>
+                    <th>Keterangan</th>
+                    <th style="width:12%">Status</th>
                   </tr>
                 </thead>
                 <tbody id="tbodyDivisi"></tbody>
               </table>
             </div>
 
-            <!-- MOBILE CARDS -->
-            <div id="cardsDivisi" class="cardList onlyMobile"></div>
-
             <div id="msgDivisi" class="msg"></div>
           </div>
         </div>
 
-        <!-- 1B EDIT ABSEN (BIARIN SIMPLE, TIDAK DIUBAH) -->
+        <!-- 1B EDIT ABSEN (TOGGLE + CONDITIONAL) -->
         <div id="sub-edit" class="hidden">
           <div class="grid">
             <div class="col-4">
@@ -433,17 +374,44 @@
               <label>Shift</label>
               <select id="editShift"></select>
             </div>
-            <div class="col-3">
+
+            <div class="col-3" id="editTelatBox">
+              <label>Telat?</label>
+              <select id="editIsTelat">
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+              </select>
+            </div>
+
+            <div class="col-3 hidden" id="editTelatMenitBox">
               <label>Telat (menit)</label>
               <input id="editTelat" type="number" min="0" placeholder="0">
             </div>
-            <div class="col-3">
+
+            <div class="col-3" id="editPulangBox">
+              <label>Pulang?</label>
+              <select id="editIsPulang">
+                <option value="0">Tidak</option>
+                <option value="1">Ya</option>
+              </select>
+            </div>
+
+            <div class="col-3 hidden" id="editPulangJamBox">
               <label>Pulang (jam)</label>
               <input id="editPulang" type="time">
             </div>
-            <div class="col-3">
-              <label>Reason Pulang</label>
-              <input id="editReason" placeholder="optional">
+
+            <div class="col-6" id="editKetBox">
+              <label>Keterangan (IJIN/SKT / Pulang)</label>
+              <div class="grid" style="gap:8px">
+                <div class="col-6">
+                  <select id="editReason"></select>
+                </div>
+                <div class="col-6">
+                  <input id="editReasonText" placeholder="atau ketik manual...">
+                </div>
+              </div>
+              <div class="small">Jika text manual diisi → akan dipakai sebagai keterangan.</div>
             </div>
 
             <div class="col-12">
@@ -458,8 +426,8 @@
       </section>
 
       <!-- KARYAWAN -->
-      <section id="tab-karyawan" class="card hidden">
-        <h3 class="sectionTitle">Manajemen Karyawan</h3>
+      <section id="tab-karyawan" class="panel hidden">
+        <div style="font-weight:900;margin-bottom:10px">Manajemen Karyawan</div>
 
         <div class="grid">
           <div class="col-6">
@@ -474,12 +442,10 @@
 
         <div class="divider"></div>
 
-        <div class="split">
-          <div class="box">
-            <h4 class="sectionTitle" style="font-size:14px">Daftar Karyawan Aktif</h4>
-
+        <div class="grid">
+          <div class="col-12">
             <div class="tableWrap">
-              <table>
+              <table style="min-width:760px">
                 <thead>
                   <tr>
                     <th style="width:14%">ID</th>
@@ -492,13 +458,16 @@
                 <tbody id="tbodyEmp"></tbody>
               </table>
             </div>
-
-            <div class="hint">*</div>
+            <div class="hint" style="margin-top:8px">
+              * getEmployees hanya mengembalikan karyawan aktif.
+            </div>
             <div id="msgEmp" class="msg"></div>
           </div>
 
-          <div class="box">
-            <h4 class="sectionTitle" style="font-size:14px">Tambah / Edit Karyawan</h4>
+          <div class="col-12"><div class="divider"></div></div>
+
+          <div class="col-12">
+            <div style="font-weight:900;margin-bottom:8px">Tambah / Edit Karyawan</div>
             <div class="grid">
               <div class="col-6">
                 <label>Employee ID</label>
@@ -527,7 +496,7 @@
 
             <div class="divider"></div>
 
-            <h4 class="sectionTitle" style="font-size:14px">Aktifkan Karyawan (Manual)</h4>
+            <div style="font-weight:900;margin-bottom:8px">Aktifkan Karyawan (Manual)</div>
             <div class="grid">
               <div class="col-6">
                 <label>Employee ID</label>
@@ -545,8 +514,8 @@
       </section>
 
       <!-- LAPORAN -->
-      <section id="tab-laporan" class="card hidden">
-        <h3 class="sectionTitle">Laporan Rekap Bulanan (PDF)</h3>
+      <section id="tab-laporan" class="panel hidden">
+        <div style="font-weight:900;margin-bottom:10px">Laporan Rekap Bulanan (PDF)</div>
         <div class="grid">
           <div class="col-3">
             <label>Tahun</label>
@@ -577,8 +546,8 @@
       </section>
 
       <!-- LOG ADMIN -->
-      <section id="tab-log" class="card hidden">
-        <h3 class="sectionTitle">Log Admin</h3>
+      <section id="tab-log" class="panel hidden">
+        <div style="font-weight:900;margin-bottom:10px">Log Admin</div>
         <div class="grid">
           <div class="col-4">
             <label>Start (opsional)</label>
@@ -594,8 +563,9 @@
           </div>
         </div>
 
+        <div class="divider"></div>
         <div class="tableWrap">
-          <table>
+          <table style="min-width:900px">
             <thead>
               <tr>
                 <th style="width:18%">Waktu</th>
@@ -629,15 +599,13 @@ let USER  = localStorage.getItem("bpfo_user") || "";
 let ROLE  = localStorage.getItem("bpfo_role") || "";
 let EMPLOYEES = [];
 let ABSEN_HARI = [];
-let MASSAL_ROW_SEQ = 1;
 
 const SHIFT_UI = ["P","S","M","FT","OFF","IJIN","SKT"];
-const WORK_SHIFTS = new Set(["P","S","M","FT"]);
 function toBackendShift(ui){ return (ui === "IJIN") ? "IJN" : ui; }
-function fromBackendShift(b){
-  const x = String(b||"").toUpperCase();
-  return (x === "IJN") ? "IJIN" : x;
-}
+function fromBackendShift(b){ return (String(b||"").toUpperCase() === "IJN") ? "IJIN" : String(b||"").toUpperCase(); }
+
+// preset cepat
+const REASONS = ["", "SAKIT", "DUKA", "KELUARGA", "IZIN_ADMIN", "LAINNYA"];
 
 function $(id){ return document.getElementById(id); }
 function setMsg(el, text, type){
@@ -655,17 +623,16 @@ function escapeHtml(s){
     .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
-function isMobile(){ return window.matchMedia("(max-width: 640px)").matches; }
 
 /***********************
- SHIFT COLOR
+ SHIFT STYLE
 ************************/
 function colorShiftSelect(selectEl){
   const v = (selectEl.value || "").toUpperCase();
   selectEl.style.fontWeight = "900";
   if (v === "OFF") selectEl.style.color = "#dc2626";
-  else if (v === "IJIN") selectEl.style.color = "#1e3a8a";
-  else if (v === "SKT") selectEl.style.color = "#4c1d95";
+  else if (v === "IJIN") selectEl.style.color = "#a16207";
+  else if (v === "SKT") selectEl.style.color = "#6d28d9";
   else if (v === "FT") selectEl.style.color = "#c2410c";
   else selectEl.style.color = "#111827";
 }
@@ -679,9 +646,18 @@ function buildShiftSelect(el){
   colorShiftSelect(el);
   el.addEventListener("change", ()=> colorShiftSelect(el));
 }
+function buildReasonSelect(el){
+  el.innerHTML = "";
+  REASONS.forEach(r=>{
+    const opt = document.createElement("option");
+    opt.value = r;
+    opt.textContent = r === "" ? "-" : r;
+    el.appendChild(opt);
+  });
+}
 
 /***********************
- API
+ API HELPERS
 ************************/
 async function apiGet(action, params={}){
   const url = new URL(API);
@@ -727,7 +703,7 @@ function setSession(token, username, role){
   refreshSessionPill();
 }
 function clearSession(){
-  TOKEN = ""; USER = ""; ROLE = "";
+  TOKEN=""; USER=""; ROLE="";
   localStorage.removeItem("bpfo_token");
   localStorage.removeItem("bpfo_user");
   localStorage.removeItem("bpfo_role");
@@ -744,12 +720,14 @@ function refreshSessionPill(){
 }
 
 /***********************
- BASE HELPERS
+ BASE DATA
 ************************/
 function buildDatalist(){
   const dl = $("employeeList");
   dl.innerHTML = "";
-  EMPLOYEES.slice().sort((a,b)=> String(a.nama||"").localeCompare(String(b.nama||""), "id"))
+  EMPLOYEES
+    .slice()
+    .sort((a,b)=> String(a.nama||"").localeCompare(String(b.nama||""), "id"))
     .forEach(emp=>{
       const opt = document.createElement("option");
       opt.value = emp.nama;
@@ -763,24 +741,21 @@ function divisiListFromEmployees(){
 }
 function fillDivisiSelects(){
   const list = divisiListFromEmployees();
-
-  const sel = $("divisiSelect");
-  sel.innerHTML = "";
+  $("divisiSelect").innerHTML = "";
   list.forEach(d=>{
     const opt = document.createElement("option");
     opt.value = d; opt.textContent = d;
-    sel.appendChild(opt);
+    $("divisiSelect").appendChild(opt);
   });
 
-  const rep = $("repDivisi");
-  rep.innerHTML = "";
+  $("repDivisi").innerHTML = "";
   const all = document.createElement("option");
-  all.value = "ALL"; all.textContent = "ALL";
-  rep.appendChild(all);
+  all.value="ALL"; all.textContent="ALL";
+  $("repDivisi").appendChild(all);
   list.forEach(d=>{
     const opt = document.createElement("option");
-    opt.value = d; opt.textContent = d;
-    rep.appendChild(opt);
+    opt.value=d; opt.textContent=d;
+    $("repDivisi").appendChild(opt);
   });
 }
 function getEmpByName(name){
@@ -788,235 +763,6 @@ function getEmpByName(name){
   return EMPLOYEES.find(e => (e.nama||"").trim().toUpperCase() === n);
 }
 
-/***********************
- VISIBILITY RULES (MASSAL)
-************************/
-function applyRulesMassalDesktop(tr){
-  const selShift = tr.querySelector('[data-f="shift"]');
-  const chkTelat = tr.querySelector('[data-f="telat_on"]');
-  const inpTelat = tr.querySelector('[data-f="telat_menit"]');
-  const chkPulang = tr.querySelector('[data-f="pulang_on"]');
-  const inpPulang = tr.querySelector('[data-f="pulang_jam"]');
-  const inpKet = tr.querySelector('[data-f="ket"]');
-
-  const shift = (selShift.value||"").toUpperCase();
-  const isWork = WORK_SHIFTS.has(shift);
-
-  inpTelat.parentElement.classList.add("hidden");
-  inpPulang.parentElement.classList.add("hidden");
-  inpKet.parentElement.classList.add("hidden");
-
-  chkTelat.disabled = true;
-  chkPulang.disabled = true;
-
-  if (isWork){
-    chkTelat.disabled = false;
-    chkPulang.disabled = false;
-
-    if (chkTelat.checked) inpTelat.parentElement.classList.remove("hidden");
-    else inpTelat.value = "0";
-
-    if (chkPulang.checked){
-      inpPulang.parentElement.classList.remove("hidden");
-      inpKet.parentElement.classList.remove("hidden");
-    } else {
-      inpPulang.value = "";
-      inpKet.value = "";
-    }
-    return;
-  }
-
-  // IJIN / SKT / OFF
-  chkTelat.checked = false;
-  chkPulang.checked = false;
-  inpTelat.value = "0";
-  inpPulang.value = "";
-
-  if (shift === "IJIN" || shift === "SKT"){
-    inpKet.parentElement.classList.remove("hidden");
-  } else {
-    inpKet.value = "";
-  }
-}
-
-function applyRulesMassalMobile(card){
-  const selShift = card.querySelector('[data-f="shift"]');
-  const chkTelat = card.querySelector('[data-f="telat_on"]');
-  const boxTelat = card.querySelector('[data-box="telat"]');
-  const inpTelat = card.querySelector('[data-f="telat_menit"]');
-
-  const chkPulang = card.querySelector('[data-f="pulang_on"]');
-  const boxPulang = card.querySelector('[data-box="pulang"]');
-  const inpPulang = card.querySelector('[data-f="pulang_jam"]');
-
-  const boxKet = card.querySelector('[data-box="ket"]');
-  const inpKet = card.querySelector('[data-f="ket"]');
-
-  const shift = (selShift.value||"").toUpperCase();
-  const isWork = WORK_SHIFTS.has(shift);
-
-  boxTelat.classList.add("hidden");
-  boxPulang.classList.add("hidden");
-  boxKet.classList.add("hidden");
-
-  chkTelat.disabled = true;
-  chkPulang.disabled = true;
-
-  if (isWork){
-    chkTelat.disabled = false;
-    chkPulang.disabled = false;
-
-    if (chkTelat.checked) boxTelat.classList.remove("hidden");
-    else inpTelat.value = "0";
-
-    if (chkPulang.checked){
-      boxPulang.classList.remove("hidden");
-      boxKet.classList.remove("hidden");
-    } else {
-      inpPulang.value = "";
-      inpKet.value = "";
-    }
-    return;
-  }
-
-  chkTelat.checked = false;
-  chkPulang.checked = false;
-  inpTelat.value = "0";
-  inpPulang.value = "";
-
-  if (shift === "IJIN" || shift === "SKT"){
-    boxKet.classList.remove("hidden");
-  } else {
-    inpKet.value = "";
-  }
-}
-
-/***********************
- MASSAL: CREATE ITEMS (DESKTOP + MOBILE)
-************************/
-function createMassalRow(rowKey){
-  const tr = document.createElement("tr");
-  tr.dataset.rowkey = rowKey;
-  tr.innerHTML = `
-    <td><input data-f="nama" placeholder="Ketik nama..." list="employeeList"></td>
-    <td><select data-f="shift"></select></td>
-    <td>
-      <label class="tCheck tTelat" style="padding:6px 10px; border-radius:10px;">
-        <input data-f="telat_on" type="checkbox"> TELAT
-      </label>
-    </td>
-    <td><input data-f="telat_menit" type="number" min="0" placeholder="0"></td>
-    <td>
-      <label class="tCheck tPulang" style="padding:6px 10px; border-radius:10px;">
-        <input data-f="pulang_on" type="checkbox"> PULANG
-      </label>
-    </td>
-    <td><input data-f="pulang_jam" type="time"></td>
-    <td><input data-f="ket" placeholder="ket pulang / ijin / sakit"></td>
-    <td><button class="btn danger" type="button" data-act="del">Hapus</button></td>
-  `;
-
-  const selShift = tr.querySelector('[data-f="shift"]');
-  buildShiftSelect(selShift);
-
-  // hide optional by default
-  tr.querySelector('[data-f="telat_menit"]').parentElement.classList.add("hidden");
-  tr.querySelector('[data-f="pulang_jam"]').parentElement.classList.add("hidden");
-  tr.querySelector('[data-f="ket"]').parentElement.classList.add("hidden");
-
-  tr.querySelector('[data-act="del"]').onclick = ()=> removeMassalItem(rowKey);
-
-  tr.querySelector('[data-f="shift"]').addEventListener("change", ()=> applyRulesMassalDesktop(tr));
-  tr.querySelector('[data-f="telat_on"]').addEventListener("change", ()=> applyRulesMassalDesktop(tr));
-  tr.querySelector('[data-f="pulang_on"]').addEventListener("change", ()=> applyRulesMassalDesktop(tr));
-
-  applyRulesMassalDesktop(tr);
-  return tr;
-}
-
-function createMassalCard(rowKey){
-  const card = document.createElement("div");
-  card.className = "miniCard";
-  card.dataset.rowkey = rowKey;
-
-  card.innerHTML = `
-    <div class="miniHead">
-      <div class="miniName">Input Absensi</div>
-      <div class="miniActions">
-        <button class="btn danger" type="button" data-act="del">Hapus</button>
-      </div>
-    </div>
-
-    <div class="miniGrid">
-      <div class="full">
-        <div class="miniLabel">Nama</div>
-        <input data-f="nama" list="employeeList" placeholder="Ketik nama..." />
-      </div>
-
-      <div class="full">
-        <div class="miniLabel">Shift</div>
-        <select data-f="shift"></select>
-      </div>
-
-      <div class="full">
-        <div class="miniLabel">Opsi</div>
-        <div class="toggleRow" style="margin-top:0">
-          <label class="tCheck tTelat"><input data-f="telat_on" type="checkbox"> TELAT</label>
-          <label class="tCheck tPulang"><input data-f="pulang_on" type="checkbox"> PULANG</label>
-        </div>
-      </div>
-
-      <div class="full" data-box="telat">
-        <div class="miniLabel">Telat (menit)</div>
-        <input data-f="telat_menit" type="number" min="0" placeholder="0" />
-      </div>
-
-      <div class="full" data-box="pulang">
-        <div class="miniLabel">Pulang (jam)</div>
-        <input data-f="pulang_jam" type="time" />
-      </div>
-
-      <div class="full" data-box="ket">
-        <div class="miniLabel">Keterangan (Pulang / Ijin / Sakit)</div>
-        <textarea data-f="ket" placeholder="Contoh: izin keluarga / pulang karena sakit / dll"></textarea>
-      </div>
-    </div>
-  `;
-
-  const selShift = card.querySelector('select[data-f="shift"]');
-  buildShiftSelect(selShift);
-
-  card.querySelector('[data-act="del"]').onclick = ()=> removeMassalItem(rowKey);
-
-  card.querySelector('[data-f="shift"]').addEventListener("change", ()=> applyRulesMassalMobile(card));
-  card.querySelector('[data-f="telat_on"]').addEventListener("change", ()=> applyRulesMassalMobile(card));
-  card.querySelector('[data-f="pulang_on"]').addEventListener("change", ()=> applyRulesMassalMobile(card));
-
-  applyRulesMassalMobile(card);
-  return card;
-}
-
-function addMassalItem(){
-  const rowKey = "R" + (MASSAL_ROW_SEQ++);
-  $("tbodyMassal").appendChild(createMassalRow(rowKey));
-  $("cardsMassal").appendChild(createMassalCard(rowKey));
-}
-function removeMassalItem(rowKey){
-  const tr = $("tbodyMassal").querySelector(`tr[data-rowkey="${rowKey}"]`);
-  if (tr) tr.remove();
-  const card = $("cardsMassal").querySelector(`.miniCard[data-rowkey="${rowKey}"]`);
-  if (card) card.remove();
-}
-function clearMassalItems(){
-  $("tbodyMassal").innerHTML = "";
-  $("cardsMassal").innerHTML = "";
-  MASSAL_ROW_SEQ = 1;
-  for (let i=0;i<5;i++) addMassalItem();
-}
-
-/***********************
- ABSEN LOAD
-************************/
 async function loadEmployees(){
   const res = await apiGet("getEmployees");
   if (res.status !== "success") throw new Error(res.message || "getEmployees gagal");
@@ -1038,49 +784,124 @@ function getAbsenOneLocal(employee_id){
 }
 
 /***********************
- COLLECT ENTRIES
+ CONDITIONAL RULES
+************************/
+function isShiftWork(s){ return ["P","S","M","FT"].includes((s||"").toUpperCase()); }
+function isShiftNeedKet(s){ return ["IJIN","SKT"].includes((s||"").toUpperCase()); }
+
+/***********************
+ MASSAL ROW (toggle + conditional)
+************************/
+function createMassalRow(){
+  const tr = document.createElement("tr");
+
+  const tdName = document.createElement("td");
+  const inpName = document.createElement("input");
+  inpName.placeholder = "Ketik nama...";
+  inpName.setAttribute("list","employeeList");
+  tdName.appendChild(inpName);
+
+  const tdShift = document.createElement("td");
+  const selShift = document.createElement("select");
+  buildShiftSelect(selShift);
+  tdShift.appendChild(selShift);
+
+  const tdIsLate = document.createElement("td");
+  const selIsLate = document.createElement("select");
+  selIsLate.innerHTML = `<option value="0">Tidak</option><option value="1">Ya</option>`;
+  tdIsLate.appendChild(selIsLate);
+
+  const tdLate = document.createElement("td");
+  const inpLate = document.createElement("input");
+  inpLate.type="number"; inpLate.min="0"; inpLate.placeholder="0";
+  tdLate.appendChild(inpLate);
+
+  const tdIsPulang = document.createElement("td");
+  const selIsPulang = document.createElement("select");
+  selIsPulang.innerHTML = `<option value="0">Tidak</option><option value="1">Ya</option>`;
+  tdIsPulang.appendChild(selIsPulang);
+
+  const tdPulang = document.createElement("td");
+  const inpPulang = document.createElement("input");
+  inpPulang.type="time";
+  tdPulang.appendChild(inpPulang);
+
+  const tdKet = document.createElement("td");
+  const ketWrap = document.createElement("div");
+  ketWrap.style.display="grid";
+  ketWrap.style.gridTemplateColumns="1fr 1fr";
+  ketWrap.style.gap="6px";
+
+  const selKet = document.createElement("select");
+  buildReasonSelect(selKet);
+  const inpKet = document.createElement("input");
+  inpKet.placeholder="ketik manual...";
+  ketWrap.appendChild(selKet);
+  ketWrap.appendChild(inpKet);
+  tdKet.appendChild(ketWrap);
+
+  const tdAct = document.createElement("td");
+  const btnDel = document.createElement("button");
+  btnDel.className="btn danger"; btnDel.type="button"; btnDel.textContent="Hapus";
+  btnDel.onclick=()=> tr.remove();
+  tdAct.appendChild(btnDel);
+
+  function applyConditional(){
+    const sh = (selShift.value||"").toUpperCase();
+    const work = isShiftWork(sh);
+    const needKet = isShiftNeedKet(sh);
+
+    // Telat/Pulang hanya untuk P/S/M/FT
+    selIsLate.disabled = !work;
+    inpLate.disabled = !work || selIsLate.value !== "1";
+    selIsPulang.disabled = !work;
+    inpPulang.disabled = !work || selIsPulang.value !== "1";
+
+    if (!work){
+      selIsLate.value="0"; inpLate.value="";
+      selIsPulang.value="0"; inpPulang.value="";
+    }
+    // Keterangan muncul untuk IJIN/SKT atau kalau Pulang=Ya
+    const showKet = needKet || (work && selIsPulang.value==="1") || (sh==="OFF");
+    selKet.disabled = !showKet;
+    inpKet.disabled = !showKet;
+
+    if (!showKet){
+      selKet.value=""; inpKet.value="";
+    }
+  }
+
+  selShift.addEventListener("change", applyConditional);
+  selIsLate.addEventListener("change", applyConditional);
+  selIsPulang.addEventListener("change", applyConditional);
+  inpPulang.addEventListener("change", ()=>{
+    if (inpPulang.value) selIsPulang.value="1";
+    applyConditional();
+  });
+
+  tr.appendChild(tdName);
+  tr.appendChild(tdShift);
+  tr.appendChild(tdIsLate);
+  tr.appendChild(tdLate);
+  tr.appendChild(tdIsPulang);
+  tr.appendChild(tdPulang);
+  tr.appendChild(tdKet);
+  tr.appendChild(tdAct);
+
+  applyConditional();
+  return tr;
+}
+
+/***********************
+ COLLECT MASSAL
 ************************/
 function collectMassalEntries(){
+  const rows = [...$("tbodyMassal").querySelectorAll("tr")];
   const entries = [];
   const seen = new Set();
 
-  if (isMobile()){
-    const cards = [...$("cardsMassal").querySelectorAll(".miniCard")];
-    for (const c of cards){
-      const name = (c.querySelector('[data-f="nama"]').value || "").trim();
-      if (!name) continue;
-
-      const emp = getEmpByName(name);
-      if (!emp) throw new Error(`Nama tidak ditemukan: ${name}`);
-      if (seen.has(emp.employee_id)) throw new Error(`Nama dobel di form: ${emp.nama}`);
-      seen.add(emp.employee_id);
-
-      const shiftUI = (c.querySelector('[data-f="shift"]').value || "").trim().toUpperCase();
-      const telatOn = !!c.querySelector('[data-f="telat_on"]').checked;
-      const pulangOn = !!c.querySelector('[data-f="pulang_on"]').checked;
-
-      const telat = telatOn ? (Number(c.querySelector('[data-f="telat_menit"]').value || 0) || 0) : 0;
-      const pulang = pulangOn ? (c.querySelector('[data-f="pulang_jam"]').value || "") : "";
-      const ket = (c.querySelector('[data-f="ket"]').value || "").trim();
-
-      const isWork = WORK_SHIFTS.has(shiftUI);
-      const pulang_reason = (isWork && pulangOn) ? ket : (shiftUI === "IJIN" || shiftUI === "SKT" ? ket : "");
-
-      entries.push({
-        employee_id: emp.employee_id,
-        nama: emp.nama,
-        shift: toBackendShift(shiftUI),
-        telat_menit: telat,
-        pulang_jam: pulang,
-        pulang_reason
-      });
-    }
-    return entries;
-  }
-
-  const rows = [...$("tbodyMassal").querySelectorAll("tr")];
   for (const tr of rows){
-    const name = (tr.querySelector('[data-f="nama"]').value || "").trim();
+    const name = tr.children[0].querySelector("input").value.trim();
     if (!name) continue;
 
     const emp = getEmpByName(name);
@@ -1088,16 +909,17 @@ function collectMassalEntries(){
     if (seen.has(emp.employee_id)) throw new Error(`Nama dobel di form: ${emp.nama}`);
     seen.add(emp.employee_id);
 
-    const shiftUI = (tr.querySelector('[data-f="shift"]').value || "").trim().toUpperCase();
-    const telatOn = !!tr.querySelector('[data-f="telat_on"]').checked;
-    const pulangOn = !!tr.querySelector('[data-f="pulang_on"]').checked;
+    const shiftUI = tr.children[1].querySelector("select").value.trim().toUpperCase();
 
-    const telat = telatOn ? (Number(tr.querySelector('[data-f="telat_menit"]').value || 0) || 0) : 0;
-    const pulang = pulangOn ? (tr.querySelector('[data-f="pulang_jam"]').value || "") : "";
-    const ket = (tr.querySelector('[data-f="ket"]').value || "").trim();
+    const isLate = tr.children[2].querySelector("select").value === "1";
+    const telat = isLate ? (Number(tr.children[3].querySelector("input").value || 0) || 0) : 0;
 
-    const isWork = WORK_SHIFTS.has(shiftUI);
-    const pulang_reason = (isWork && pulangOn) ? ket : (shiftUI === "IJIN" || shiftUI === "SKT" ? ket : "");
+    const isPulang = tr.children[4].querySelector("select").value === "1";
+    const pulang = isPulang ? (tr.children[5].querySelector("input").value || "") : "";
+
+    const selKet = tr.children[6].querySelector("select").value || "";
+    const inpKet = tr.children[6].querySelector("input").value.trim();
+    const ket = inpKet || selKet || "";
 
     entries.push({
       employee_id: emp.employee_id,
@@ -1105,7 +927,7 @@ function collectMassalEntries(){
       shift: toBackendShift(shiftUI),
       telat_menit: telat,
       pulang_jam: pulang,
-      pulang_reason
+      pulang_reason: ket
     });
   }
   return entries;
@@ -1118,14 +940,12 @@ async function submitBulk(dateStr, entries){
 }
 
 /***********************
- DIVISI RENDER (KEEP SIMPLE: TABLE ONLY)
+ DIVISI TABLE (toggle+conditional)
 ************************/
 function renderDivisiTable(){
   const div = $("divisiSelect").value || "";
   const tbody = $("tbodyDivisi");
-  const cards = $("cardsDivisi");
   tbody.innerHTML = "";
-  cards.innerHTML = "";
 
   const list = EMPLOYEES
     .filter(e => (e.divisi||"Tanpa Divisi").trim() === div)
@@ -1134,300 +954,195 @@ function renderDivisiTable(){
   $("divisiInfo").textContent = `Karyawan: ${list.length}`;
 
   for (const emp of list){
-    const exist = getAbsenOneLocal(emp.employee_id);
-
-    // DESKTOP
     const tr = document.createElement("tr");
-    tr.dataset.employee_id = emp.employee_id;
 
-    tr.innerHTML = `
-      <td><input data-f="check" type="checkbox"></td>
-      <td>${escapeHtml(emp.nama)}</td>
-      <td><select data-f="shift"></select></td>
-      <td><label class="tCheck tTelat" style="padding:6px 10px; border-radius:10px;"><input data-f="telat_on" type="checkbox"> TELAT</label></td>
-      <td><input data-f="telat_menit" type="number" min="0" placeholder="0"></td>
-      <td><label class="tCheck tPulang" style="padding:6px 10px; border-radius:10px;"><input data-f="pulang_on" type="checkbox"> PULANG</label></td>
-      <td><input data-f="pulang_jam" type="time"></td>
-      <td><input data-f="ket" placeholder="ket pulang / ijin / sakit"></td>
-      <td><span class="chip" data-f="status"><span class="dot warn"></span><span>Belum load</span></span></td>
-    `;
+    const tdC = document.createElement("td");
+    const chk = document.createElement("input"); chk.type="checkbox";
+    tdC.appendChild(chk);
 
-    const selShift = tr.querySelector('[data-f="shift"]');
+    const tdN = document.createElement("td");
+    tdN.textContent = emp.nama;
+
+    const tdS = document.createElement("td");
+    const selShift = document.createElement("select");
     buildShiftSelect(selShift);
+    tdS.appendChild(selShift);
 
-    // hide optional defaults
-    tr.querySelector('[data-f="telat_menit"]').parentElement.classList.add("hidden");
-    tr.querySelector('[data-f="pulang_jam"]').parentElement.classList.add("hidden");
-    tr.querySelector('[data-f="ket"]').parentElement.classList.add("hidden");
+    const tdIsLate = document.createElement("td");
+    const selIsLate = document.createElement("select");
+    selIsLate.innerHTML = `<option value="0">Tidak</option><option value="1">Ya</option>`;
+    tdIsLate.appendChild(selIsLate);
 
-    // rules
-    const apply = ()=> applyRulesDivisiDesktop(tr);
-    tr.querySelector('[data-f="shift"]').addEventListener("change", apply);
-    tr.querySelector('[data-f="telat_on"]').addEventListener("change", apply);
-    tr.querySelector('[data-f="pulang_on"]').addEventListener("change", apply);
+    const tdLate = document.createElement("td");
+    const inpLate = document.createElement("input");
+    inpLate.type="number"; inpLate.min="0"; inpLate.placeholder="0";
+    tdLate.appendChild(inpLate);
 
-    const chk = tr.querySelector('[data-f="check"]');
-    const status = tr.querySelector('[data-f="status"]');
+    const tdIsPulang = document.createElement("td");
+    const selIsPulang = document.createElement("select");
+    selIsPulang.innerHTML = `<option value="0">Tidak</option><option value="1">Ya</option>`;
+    tdIsPulang.appendChild(selIsPulang);
 
+    const tdP = document.createElement("td");
+    const inpP = document.createElement("input");
+    inpP.type="time";
+    tdP.appendChild(inpP);
+
+    const tdKet = document.createElement("td");
+    const wrap = document.createElement("div");
+    wrap.style.display="grid";
+    wrap.style.gridTemplateColumns="1fr 1fr";
+    wrap.style.gap="6px";
+
+    const selKet = document.createElement("select");
+    buildReasonSelect(selKet);
+    const inpKet = document.createElement("input");
+    inpKet.placeholder="ketik manual...";
+    wrap.appendChild(selKet);
+    wrap.appendChild(inpKet);
+    tdKet.appendChild(wrap);
+
+    const tdSt = document.createElement("td");
+    const status = document.createElement("span");
+    status.className = "chip";
+    status.innerHTML = `<span class="dot warn"></span><span>Belum load</span>`;
+    tdSt.appendChild(status);
+
+    function applyConditional(){
+      const sh = (selShift.value||"").toUpperCase();
+      const work = isShiftWork(sh);
+      const needKet = isShiftNeedKet(sh);
+
+      selIsLate.disabled = !work;
+      inpLate.disabled = !work || selIsLate.value !== "1";
+
+      selIsPulang.disabled = !work;
+      inpP.disabled = !work || selIsPulang.value !== "1";
+
+      if (!work){
+        selIsLate.value="0"; inpLate.value="";
+        selIsPulang.value="0"; inpP.value="";
+      }
+
+      const showKet = needKet || (work && selIsPulang.value==="1") || (sh==="OFF");
+      selKet.disabled = !showKet;
+      inpKet.disabled = !showKet;
+
+      if (!showKet){
+        selKet.value=""; inpKet.value="";
+      }
+    }
+
+    selShift.addEventListener("change", applyConditional);
+    selIsLate.addEventListener("change", applyConditional);
+    selIsPulang.addEventListener("change", applyConditional);
+    inpP.addEventListener("change", ()=>{
+      if (inpP.value) selIsPulang.value="1";
+      applyConditional();
+    });
+
+    const exist = getAbsenOneLocal(emp.employee_id);
     if (exist){
       chk.checked = true;
       const uiShift = fromBackendShift(exist.shift || "P");
-      selShift.value = uiShift;
-      colorShiftSelect(selShift);
+      selShift.value = uiShift; colorShiftSelect(selShift);
 
-      const telat = Number(exist.telat_menit||0)||0;
-      const pulang = exist.pulang_jam || "";
+      // telat
+      const t = Number(exist.telat_menit || 0) || 0;
+      selIsLate.value = t > 0 ? "1" : "0";
+      inpLate.value = t > 0 ? t : "";
+
+      // pulang
+      const pj = exist.pulang_jam || "";
+      selIsPulang.value = pj ? "1" : "0";
+      inpP.value = pj;
+
+      // ket
       const ket = exist.pulang_reason || "";
-
-      tr.querySelector('[data-f="telat_on"]').checked = WORK_SHIFTS.has(uiShift) && telat > 0;
-      tr.querySelector('[data-f="pulang_on"]').checked = WORK_SHIFTS.has(uiShift) && !!pulang;
-
-      tr.querySelector('[data-f="telat_menit"]').value = telat;
-      tr.querySelector('[data-f="pulang_jam"]').value = pulang;
-      tr.querySelector('[data-f="ket"]').value = ket;
+      selKet.value = REASONS.includes(ket) ? ket : "";
+      inpKet.value = REASONS.includes(ket) ? "" : ket;
 
       status.innerHTML = `<span class="dot ok"></span><span>Sudah absen</span>`;
     }
 
-    applyRulesDivisiDesktop(tr);
+    applyConditional();
+
+    tr.dataset.employee_id = emp.employee_id;
+
+    tr.appendChild(tdC);
+    tr.appendChild(tdN);
+    tr.appendChild(tdS);
+    tr.appendChild(tdIsLate);
+    tr.appendChild(tdLate);
+    tr.appendChild(tdIsPulang);
+    tr.appendChild(tdP);
+    tr.appendChild(tdKet);
+    tr.appendChild(tdSt);
+
     tbody.appendChild(tr);
-
-    // MOBILE CARD for divisi (optional, keep but same rules)
-    const card = document.createElement("div");
-    card.className = "miniCard";
-    card.dataset.employee_id = emp.employee_id;
-    card.innerHTML = `
-      <div class="miniHead">
-        <div class="miniName">${escapeHtml(emp.nama)}</div>
-        <div class="miniActions">
-          <label style="display:flex;align-items:center;gap:8px;font-weight:900;color:var(--muted)">
-            <input type="checkbox" data-f="check" /> Pilih
-          </label>
-        </div>
-      </div>
-      <div class="miniGrid">
-        <div class="full">
-          <div class="miniLabel">Shift</div>
-          <select data-f="shift"></select>
-        </div>
-        <div class="full">
-          <div class="miniLabel">Opsi</div>
-          <div class="toggleRow" style="margin-top:0">
-            <label class="tCheck tTelat"><input data-f="telat_on" type="checkbox"> TELAT</label>
-            <label class="tCheck tPulang"><input data-f="pulang_on" type="checkbox"> PULANG</label>
-          </div>
-        </div>
-        <div class="full" data-box="telat">
-          <div class="miniLabel">Telat (menit)</div>
-          <input data-f="telat_menit" type="number" min="0" placeholder="0" />
-        </div>
-        <div class="full" data-box="pulang">
-          <div class="miniLabel">Pulang (jam)</div>
-          <input data-f="pulang_jam" type="time" />
-        </div>
-        <div class="full" data-box="ket">
-          <div class="miniLabel">Keterangan (Pulang / Ijin / Sakit)</div>
-          <textarea data-f="ket" placeholder="Contoh: izin keluarga / pulang karena sakit / dll"></textarea>
-        </div>
-        <div class="full">
-          <span class="chip" data-f="status"><span class="dot warn"></span><span>Belum load</span></span>
-        </div>
-      </div>
-    `;
-    const cShift = card.querySelector('select[data-f="shift"]');
-    buildShiftSelect(cShift);
-
-    const applyM = ()=> applyRulesDivisiMobile(card);
-    card.querySelector('[data-f="shift"]').addEventListener("change", applyM);
-    card.querySelector('[data-f="telat_on"]').addEventListener("change", applyM);
-    card.querySelector('[data-f="pulang_on"]').addEventListener("change", applyM);
-
-    if (exist){
-      card.querySelector('[data-f="check"]').checked = true;
-      const uiShift = fromBackendShift(exist.shift || "P");
-      cShift.value = uiShift;
-      colorShiftSelect(cShift);
-
-      const telat = Number(exist.telat_menit||0)||0;
-      const pulang = exist.pulang_jam || "";
-      const ket = exist.pulang_reason || "";
-
-      card.querySelector('[data-f="telat_on"]').checked = WORK_SHIFTS.has(uiShift) && telat > 0;
-      card.querySelector('[data-f="pulang_on"]').checked = WORK_SHIFTS.has(uiShift) && !!pulang;
-
-      card.querySelector('[data-f="telat_menit"]').value = telat;
-      card.querySelector('[data-f="pulang_jam"]').value = pulang;
-      card.querySelector('[data-f="ket"]').value = ket;
-
-      card.querySelector('[data-f="status"]').innerHTML = `<span class="dot ok"></span><span>Sudah absen</span>`;
-    }
-
-    applyRulesDivisiMobile(card);
-    cards.appendChild(card);
   }
 }
 
-function applyRulesDivisiDesktop(tr){
-  const selShift = tr.querySelector('[data-f="shift"]');
-  const chkTelat = tr.querySelector('[data-f="telat_on"]');
-  const inpTelat = tr.querySelector('[data-f="telat_menit"]');
-  const chkPulang = tr.querySelector('[data-f="pulang_on"]');
-  const inpPulang = tr.querySelector('[data-f="pulang_jam"]');
-  const inpKet = tr.querySelector('[data-f="ket"]');
-
-  const shift = (selShift.value||"").toUpperCase();
-  const isWork = WORK_SHIFTS.has(shift);
-
-  inpTelat.parentElement.classList.add("hidden");
-  inpPulang.parentElement.classList.add("hidden");
-  inpKet.parentElement.classList.add("hidden");
-
-  chkTelat.disabled = true;
-  chkPulang.disabled = true;
-
-  if (isWork){
-    chkTelat.disabled = false;
-    chkPulang.disabled = false;
-
-    if (chkTelat.checked) inpTelat.parentElement.classList.remove("hidden");
-    else inpTelat.value = "0";
-
-    if (chkPulang.checked){
-      inpPulang.parentElement.classList.remove("hidden");
-      inpKet.parentElement.classList.remove("hidden");
-    } else {
-      inpPulang.value = "";
-      inpKet.value = "";
-    }
-    return;
-  }
-
-  chkTelat.checked = false;
-  chkPulang.checked = false;
-  inpTelat.value = "0";
-  inpPulang.value = "";
-
-  if (shift === "IJIN" || shift === "SKT"){
-    inpKet.parentElement.classList.remove("hidden");
-  } else {
-    inpKet.value = "";
-  }
-}
-
-function applyRulesDivisiMobile(card){
-  const selShift = card.querySelector('[data-f="shift"]');
-  const chkTelat = card.querySelector('[data-f="telat_on"]');
-  const boxTelat = card.querySelector('[data-box="telat"]');
-  const inpTelat = card.querySelector('[data-f="telat_menit"]');
-
-  const chkPulang = card.querySelector('[data-f="pulang_on"]');
-  const boxPulang = card.querySelector('[data-box="pulang"]');
-  const inpPulang = card.querySelector('[data-f="pulang_jam"]');
-
-  const boxKet = card.querySelector('[data-box="ket"]');
-  const inpKet = card.querySelector('[data-f="ket"]');
-
-  const shift = (selShift.value||"").toUpperCase();
-  const isWork = WORK_SHIFTS.has(shift);
-
-  boxTelat.classList.add("hidden");
-  boxPulang.classList.add("hidden");
-  boxKet.classList.add("hidden");
-
-  chkTelat.disabled = true;
-  chkPulang.disabled = true;
-
-  if (isWork){
-    chkTelat.disabled = false;
-    chkPulang.disabled = false;
-
-    if (chkTelat.checked) boxTelat.classList.remove("hidden");
-    else inpTelat.value = "0";
-
-    if (chkPulang.checked){
-      boxPulang.classList.remove("hidden");
-      boxKet.classList.remove("hidden");
-    } else {
-      inpPulang.value = "";
-      inpKet.value = "";
-    }
-    return;
-  }
-
-  chkTelat.checked = false;
-  chkPulang.checked = false;
-  inpTelat.value = "0";
-  inpPulang.value = "";
-
-  if (shift === "IJIN" || shift === "SKT"){
-    boxKet.classList.remove("hidden");
-  } else {
-    inpKet.value = "";
-  }
-}
-
-/***********************
- SUBMIT DIVISI
-************************/
 function collectDivisiEntries(){
-  const entries = [];
-  const div = $("divisiSelect").value || "";
-  const list = EMPLOYEES.filter(e => (e.divisi||"Tanpa Divisi").trim() === div);
-
-  if (isMobile()){
-    const cards = [...$("cardsDivisi").querySelectorAll(".miniCard")];
-    for (const c of cards){
-      const chk = c.querySelector('[data-f="check"]');
-      if (!chk.checked) continue;
-
-      const employee_id = c.dataset.employee_id;
-      const emp = list.find(e=> e.employee_id === employee_id);
-      if (!emp) continue;
-
-      const shiftUI = (c.querySelector('[data-f="shift"]').value || "").trim().toUpperCase();
-      const telatOn = !!c.querySelector('[data-f="telat_on"]').checked;
-      const pulangOn = !!c.querySelector('[data-f="pulang_on"]').checked;
-
-      const telat = telatOn ? (Number(c.querySelector('[data-f="telat_menit"]').value || 0) || 0) : 0;
-      const pulang = pulangOn ? (c.querySelector('[data-f="pulang_jam"]').value || "") : "";
-      const ket = (c.querySelector('[data-f="ket"]').value || "").trim();
-
-      const isWork = WORK_SHIFTS.has(shiftUI);
-      const pulang_reason = (isWork && pulangOn) ? ket : (shiftUI === "IJIN" || shiftUI === "SKT" ? ket : "");
-
-      entries.push({ employee_id, nama: emp.nama, shift: toBackendShift(shiftUI), telat_menit: telat, pulang_jam: pulang, pulang_reason });
-    }
-    return entries;
-  }
-
   const rows = [...$("tbodyDivisi").querySelectorAll("tr")];
+  const entries = [];
+
   for (const tr of rows){
-    const chk = tr.querySelector('[data-f="check"]');
+    const chk = tr.children[0].querySelector("input");
     if (!chk.checked) continue;
 
     const employee_id = tr.dataset.employee_id;
-    const emp = list.find(e=> e.employee_id === employee_id);
+    const emp = EMPLOYEES.find(e=> e.employee_id === employee_id);
     if (!emp) continue;
 
-    const shiftUI = (tr.querySelector('[data-f="shift"]').value || "").trim().toUpperCase();
-    const telatOn = !!tr.querySelector('[data-f="telat_on"]').checked;
-    const pulangOn = !!tr.querySelector('[data-f="pulang_on"]').checked;
+    const shiftUI = tr.children[2].querySelector("select").value.trim().toUpperCase();
 
-    const telat = telatOn ? (Number(tr.querySelector('[data-f="telat_menit"]').value || 0) || 0) : 0;
-    const pulang = pulangOn ? (tr.querySelector('[data-f="pulang_jam"]').value || "") : "";
-    const ket = (tr.querySelector('[data-f="ket"]').value || "").trim();
+    const isLate = tr.children[3].querySelector("select").value === "1";
+    const telat = isLate ? (Number(tr.children[4].querySelector("input").value || 0) || 0) : 0;
 
-    const isWork = WORK_SHIFTS.has(shiftUI);
-    const pulang_reason = (isWork && pulangOn) ? ket : (shiftUI === "IJIN" || shiftUI === "SKT" ? ket : "");
+    const isPulang = tr.children[5].querySelector("select").value === "1";
+    const pulang = isPulang ? (tr.children[6].querySelector("input").value || "") : "";
 
-    entries.push({ employee_id, nama: emp.nama, shift: toBackendShift(shiftUI), telat_menit: telat, pulang_jam: pulang, pulang_reason });
+    const selKet = tr.children[7].querySelector("select").value || "";
+    const inpKet = tr.children[7].querySelector("input").value.trim();
+    const ket = inpKet || selKet || "";
+
+    entries.push({
+      employee_id,
+      nama: emp.nama,
+      shift: toBackendShift(shiftUI),
+      telat_menit: telat,
+      pulang_jam: pulang,
+      pulang_reason: ket
+    });
   }
   return entries;
 }
 
 /***********************
- EDIT ABSEN (SIMPLE)
+ EDIT ABSEN (same conditional)
 ************************/
+function applyEditConditional(){
+  const sh = ($("editShift").value||"").toUpperCase();
+  const work = isShiftWork(sh);
+  const needKet = isShiftNeedKet(sh);
+
+  $("editIsTelat").disabled = !work;
+  $("editTelatMenitBox").classList.toggle("hidden", !work || $("editIsTelat").value !== "1");
+  if (!work){ $("editIsTelat").value="0"; $("editTelat").value=""; }
+
+  $("editIsPulang").disabled = !work;
+  $("editPulangJamBox").classList.toggle("hidden", !work || $("editIsPulang").value !== "1");
+  if (!work){ $("editIsPulang").value="0"; $("editPulang").value=""; }
+
+  // Keterangan: tampil kalau IJIN/SKT atau Pulang=Ya atau OFF
+  const showKet = needKet || (work && $("editIsPulang").value==="1") || (sh==="OFF");
+  $("editKetBox").classList.toggle("hidden", !showKet);
+  if (!showKet){
+    $("editReason").value=""; $("editReasonText").value="";
+  }
+}
+
 async function loadOneForEdit(){
   const tanggal = $("editTanggal").value;
   const name = $("editNama").value.trim();
@@ -1441,12 +1156,23 @@ async function loadOneForEdit(){
   if (res.status !== "success") throw new Error(res.message || "getAbsenOne gagal");
 
   const d = res.data;
-  $("editShift").value = fromBackendShift(d.shift || "P");
-  colorShiftSelect($("editShift"));
-  $("editTelat").value = Number(d.telat_menit || 0) || 0;
-  $("editPulang").value = d.pulang_jam || "";
-  $("editReason").value = d.pulang_reason || "";
 
+  const uiShift = fromBackendShift(d.shift || "P");
+  $("editShift").value = uiShift; colorShiftSelect($("editShift"));
+
+  const t = Number(d.telat_menit || 0) || 0;
+  $("editIsTelat").value = t > 0 ? "1" : "0";
+  $("editTelat").value = t > 0 ? t : "";
+
+  const pj = d.pulang_jam || "";
+  $("editIsPulang").value = pj ? "1" : "0";
+  $("editPulang").value = pj;
+
+  const ket = d.pulang_reason || "";
+  $("editReason").value = REASONS.includes(ket) ? ket : "";
+  $("editReasonText").value = REASONS.includes(ket) ? "" : ket;
+
+  applyEditConditional();
   $("editInfo").textContent = `Loaded: ${d.nama} (${d.employee_id})`;
 }
 
@@ -1458,13 +1184,26 @@ async function updateOne(){
   const emp = getEmpByName(name);
   if (!emp) throw new Error("Nama tidak ditemukan");
 
+  const shUI = $("editShift").value;
+  const work = isShiftWork(shUI);
+
+  const isLate = work && $("editIsTelat").value==="1";
+  const telat = isLate ? (Number($("editTelat").value||0)||0) : 0;
+
+  const isPulang = work && $("editIsPulang").value==="1";
+  const pulang = isPulang ? ($("editPulang").value||"") : "";
+
+  const ketManual = $("editReasonText").value.trim();
+  const ketPreset = $("editReason").value || "";
+  const ket = ketManual || ketPreset || "";
+
   const payload = {
     tanggal,
     employee_id: emp.employee_id,
-    shift: toBackendShift($("editShift").value),
-    telat_menit: Number($("editTelat").value || 0) || 0,
-    pulang_jam: $("editPulang").value || "",
-    pulang_reason: ($("editReason").value || "").trim()
+    shift: toBackendShift(shUI),
+    telat_menit: telat,
+    pulang_jam: pulang,
+    pulang_reason: ket
   };
 
   const res = await apiPost("updateAbsenOne", payload);
@@ -1486,7 +1225,6 @@ function renderEmployeesTable(){
 
   for (const e of list){
     const tr = document.createElement("tr");
-
     tr.innerHTML = `
       <td>${escapeHtml(e.employee_id)}</td>
       <td>${escapeHtml(e.nama)}</td>
@@ -1523,7 +1261,7 @@ function renderEmployeesTable(){
 }
 
 /***********************
- LAPORAN
+ LAPORAN / LOG
 ************************/
 function initReportSelectors(){
   const now = new Date();
@@ -1550,10 +1288,6 @@ function initReportSelectors(){
     mSel.appendChild(opt);
   });
 }
-
-/***********************
- LOG ADMIN
-************************/
 function renderLogTable(items){
   const tbody = $("tbodyLog");
   tbody.innerHTML = "";
@@ -1572,7 +1306,7 @@ function renderLogTable(items){
 }
 
 /***********************
- UI TABS
+ TABS
 ************************/
 function switchMainTab(tab){
   document.querySelectorAll(".tabbtn").forEach(b=> b.classList.toggle("active", b.dataset.tab === tab));
@@ -1591,6 +1325,7 @@ function switchAbsenMode(mode){
   $("mode-massal").classList.toggle("hidden", mode !== "massal");
   $("mode-divisi").classList.toggle("hidden", mode !== "divisi");
 }
+
 document.querySelectorAll(".tabbtn").forEach(btn=>{
   btn.addEventListener("click", ()=> switchMainTab(btn.dataset.tab));
 });
@@ -1633,9 +1368,10 @@ $("btnLogin").addEventListener("click", async ()=>{
   }
 });
 
-$("btnAddRow").addEventListener("click", ()=> addMassalItem());
+$("btnAddRow").addEventListener("click", ()=> $("tbodyMassal").appendChild(createMassalRow()));
 $("btnClearRows").addEventListener("click", ()=>{
-  clearMassalItems();
+  $("tbodyMassal").innerHTML = "";
+  for (let i=0;i<5;i++) $("tbodyMassal").appendChild(createMassalRow());
   setMsg($("msgMassal"), "", "");
 });
 
@@ -1679,21 +1415,8 @@ $("btnSubmitMassal").addEventListener("click", async ()=>{
 });
 
 $("divisiSelect").addEventListener("change", ()=> renderDivisiTable());
-
-$("btnCheckAll").addEventListener("click", ()=>{
-  if (isMobile()){
-    $("cardsDivisi").querySelectorAll('input[type="checkbox"][data-f="check"]').forEach(c=> c.checked = true);
-  } else {
-    $("tbodyDivisi").querySelectorAll('input[type="checkbox"][data-f="check"]').forEach(c=> c.checked = true);
-  }
-});
-$("btnUncheckAll").addEventListener("click", ()=>{
-  if (isMobile()){
-    $("cardsDivisi").querySelectorAll('input[type="checkbox"][data-f="check"]').forEach(c=> c.checked = false);
-  } else {
-    $("tbodyDivisi").querySelectorAll('input[type="checkbox"][data-f="check"]').forEach(c=> c.checked = false);
-  }
-});
+$("btnCheckAll").addEventListener("click", ()=> $("tbodyDivisi").querySelectorAll('input[type="checkbox"]').forEach(c=> c.checked = true));
+$("btnUncheckAll").addEventListener("click", ()=> $("tbodyDivisi").querySelectorAll('input[type="checkbox"]').forEach(c=> c.checked = false));
 
 $("btnSubmitDivisi").addEventListener("click", async ()=>{
   const tanggal = $("absenTanggal").value;
@@ -1716,7 +1439,15 @@ $("btnSubmitDivisi").addEventListener("click", async ()=>{
   }
 });
 
-// edit simple
+// edit
+$("editShift").addEventListener("change", applyEditConditional);
+$("editIsTelat").addEventListener("change", applyEditConditional);
+$("editIsPulang").addEventListener("change", applyEditConditional);
+$("editPulang").addEventListener("change", ()=>{
+  if ($("editPulang").value) $("editIsPulang").value="1";
+  applyEditConditional();
+});
+
 $("btnLoadOne").addEventListener("click", async ()=>{
   setMsg($("msgEdit"), "Loading...", "");
   try{
@@ -1747,6 +1478,86 @@ $("btnReloadEmp").addEventListener("click", async ()=>{
   setMsg($("msgEmp"), "Reloading...", "");
   try{ await loadEmployees(); setMsg($("msgEmp"), "Reload sukses.", "ok"); }
   catch(err){ setMsg($("msgEmp"), err.message, "bad"); }
+});
+
+$("btnEmpCreate").addEventListener("click", async ()=>{
+  const employee_id = $("empId").value.trim();
+  const nama = $("empNama").value.trim();
+  const divisi = $("empDivisi").value.trim();
+  const lantai = $("empLantai").value.trim();
+  if (!employee_id || !nama) return setMsg($("msgEmpForm"), "employee_id & nama wajib.", "bad");
+
+  $("btnEmpCreate").disabled = true;
+  setMsg($("msgEmpForm"), "Creating...", "");
+  try{
+    const r = await apiPost("employeeCreate", { employee_id, nama, divisi, lantai, active:"TRUE" });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpCreate").disabled = false;
+  }
+});
+
+$("btnEmpUpdate").addEventListener("click", async ()=>{
+  const employee_id = $("empId").value.trim();
+  if (!employee_id) return setMsg($("msgEmpForm"), "employee_id wajib.", "bad");
+
+  const nama = $("empNama").value.trim();
+  const divisi = $("empDivisi").value.trim();
+  const lantai = $("empLantai").value.trim();
+
+  $("btnEmpUpdate").disabled = true;
+  setMsg($("msgEmpForm"), "Updating...", "");
+  try{
+    const r = await apiPost("employeeUpdate", { employee_id, nama, divisi, lantai });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpUpdate").disabled = false;
+  }
+});
+
+$("btnEmpDeactivate").addEventListener("click", async ()=>{
+  const employee_id = $("empId").value.trim();
+  if (!employee_id) return setMsg($("msgEmpForm"), "employee_id wajib.", "bad");
+  if (!confirm(`Nonaktifkan ${employee_id}?`)) return;
+
+  $("btnEmpDeactivate").disabled = true;
+  setMsg($("msgEmpForm"), "Setting active FALSE...", "");
+  try{
+    const r = await apiPost("employeeSetActive", { employee_id, active:"FALSE" });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpDeactivate").disabled = false;
+  }
+});
+
+$("btnEmpReact").addEventListener("click", async ()=>{
+  const employee_id = $("empReactId").value.trim();
+  if (!employee_id) return setMsg($("msgEmpForm"), "employee_id wajib.", "bad");
+
+  $("btnEmpReact").disabled = true;
+  setMsg($("msgEmpForm"), "Setting active TRUE...", "");
+  try{
+    const r = await apiPost("employeeSetActive", { employee_id, active:"TRUE" });
+    if (r.status !== "success") throw new Error(r.message || "gagal");
+    setMsg($("msgEmpForm"), r.message, "ok");
+    await loadEmployees();
+  }catch(err){
+    setMsg($("msgEmpForm"), err.message, "bad");
+  }finally{
+    $("btnEmpReact").disabled = false;
+  }
 });
 
 // laporan
@@ -1796,68 +1607,6 @@ $("btnLoadLog").addEventListener("click", async ()=>{
 });
 
 /***********************
- DIVISI COLLECT
-************************/
-function collectDivisiEntries(){
-  // already defined above (kept)
-  return (function(){
-    const entries = [];
-    const div = $("divisiSelect").value || "";
-    const list = EMPLOYEES.filter(e => (e.divisi||"Tanpa Divisi").trim() === div);
-
-    if (isMobile()){
-      const cards = [...$("cardsDivisi").querySelectorAll(".miniCard")];
-      for (const c of cards){
-        const chk = c.querySelector('[data-f="check"]');
-        if (!chk.checked) continue;
-
-        const employee_id = c.dataset.employee_id;
-        const emp = list.find(e=> e.employee_id === employee_id);
-        if (!emp) continue;
-
-        const shiftUI = (c.querySelector('[data-f="shift"]').value || "").trim().toUpperCase();
-        const telatOn = !!c.querySelector('[data-f="telat_on"]').checked;
-        const pulangOn = !!c.querySelector('[data-f="pulang_on"]').checked;
-
-        const telat = telatOn ? (Number(c.querySelector('[data-f="telat_menit"]').value || 0) || 0) : 0;
-        const pulang = pulangOn ? (c.querySelector('[data-f="pulang_jam"]').value || "") : "";
-        const ket = (c.querySelector('[data-f="ket"]').value || "").trim();
-
-        const isWork = WORK_SHIFTS.has(shiftUI);
-        const pulang_reason = (isWork && pulangOn) ? ket : (shiftUI === "IJIN" || shiftUI === "SKT" ? ket : "");
-
-        entries.push({ employee_id, nama: emp.nama, shift: toBackendShift(shiftUI), telat_menit: telat, pulang_jam: pulang, pulang_reason });
-      }
-      return entries;
-    }
-
-    const rows = [...$("tbodyDivisi").querySelectorAll("tr")];
-    for (const tr of rows){
-      const chk = tr.querySelector('[data-f="check"]');
-      if (!chk.checked) continue;
-
-      const employee_id = tr.dataset.employee_id;
-      const emp = list.find(e=> e.employee_id === employee_id);
-      if (!emp) continue;
-
-      const shiftUI = (tr.querySelector('[data-f="shift"]').value || "").trim().toUpperCase();
-      const telatOn = !!tr.querySelector('[data-f="telat_on"]').checked;
-      const pulangOn = !!tr.querySelector('[data-f="pulang_on"]').checked;
-
-      const telat = telatOn ? (Number(tr.querySelector('[data-f="telat_menit"]').value || 0) || 0) : 0;
-      const pulang = pulangOn ? (tr.querySelector('[data-f="pulang_jam"]').value || "") : "";
-      const ket = (tr.querySelector('[data-f="ket"]').value || "").trim();
-
-      const isWork = WORK_SHIFTS.has(shiftUI);
-      const pulang_reason = (isWork && pulangOn) ? ket : (shiftUI === "IJIN" || shiftUI === "SKT" ? ket : "");
-
-      entries.push({ employee_id, nama: emp.nama, shift: toBackendShift(shiftUI), telat_menit: telat, pulang_jam: pulang, pulang_reason });
-    }
-    return entries;
-  })();
-}
-
-/***********************
  BOOT
 ************************/
 async function loadInitialAbsenStatus(){
@@ -1872,8 +1621,6 @@ async function loadInitialAbsenStatus(){
   }
 }
 
-function initReportSelectors(){ /* already defined above */ }
-
 (function boot(){
   refreshSessionPill();
 
@@ -1882,8 +1629,15 @@ function initReportSelectors(){ /* already defined above */ }
   $("editTanggal").value = today;
 
   buildShiftSelect($("editShift"));
+  buildReasonSelect($("editReason"));
   initReportSelectors();
-  clearMassalItems();
+
+  // default: edit hide ket box until needed
+  $("editKetBox").classList.add("hidden");
+  applyEditConditional();
+
+  $("tbodyMassal").innerHTML = "";
+  for (let i=0;i<5;i++) $("tbodyMassal").appendChild(createMassalRow());
 
   if (TOKEN){
     $("view-login").classList.add("hidden");
